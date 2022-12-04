@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { map, tap} from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
@@ -79,5 +79,45 @@ export class AuthService {
     localStorage.setItem('user', data);
   }
 
+  autoLogin() {
+    return from(localStorage.getItem('user')).pipe(
+      map((storedData) => {
+        storedData = localStorage.getItem('user');
+        if (!storedData) {
+          return null;
+        }
+
+        const parsedData = JSON.parse(storedData) as {
+          userId: number;
+          username: string;
+          email: string;
+          firstName: string;
+          lastName: string;
+          role: string;
+          token: string;
+        };
+
+        const user = new User(
+          parsedData.userId,
+          parsedData.username,
+          parsedData.email,
+          parsedData.firstName,
+          parsedData.lastName,
+          parsedData.role,
+          parsedData.token
+        );
+
+        return user;
+      }),
+      tap((user) => {
+        if (user) {
+          this._user.next(user);
+        }
+      }),
+      map((user) => {
+        return !!user;
+      })
+    );
+  }
 
 }
