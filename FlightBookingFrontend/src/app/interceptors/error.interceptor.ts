@@ -19,13 +19,20 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError(error => {
         if (error) {
           switch (error.status) {
-            case 401:
+            case 400:
               this.toastr.error(error?.error);
+              break;
+            case 401:
+              if (error.error)
+              {
+                this.toastr.error(error.error);
+              } else {
+                this.toastr.error("You are not allowed to perform this action!")
+              }
               break;
             default:
               this.toastr.error('Something unexpected went wrong');
               console.log(error);
-              
               break;
           }
         }

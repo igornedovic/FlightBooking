@@ -24,6 +24,7 @@ export class AdminGuard implements CanActivate {
       }
 
       this.toastr.error('You cannot enter this area');
+      this.router.navigateByUrl('/home');
       return false;
     }
 

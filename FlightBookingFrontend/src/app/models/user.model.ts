@@ -1,11 +1,11 @@
 export interface UserInterface {
-    userId: number,
+    userId?: number,
     username: string,
     email: string,
     firstName: string,
     lastName: string,
     role: string,
-    token?: string
+    token: string
 }
 
 export class User {

@@ -12,9 +12,13 @@ import { HomeComponent } from './home/home.component';
 import { NavComponent } from './home/nav/nav.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
+import { NewUserComponent } from './manage-users/new-user/new-user.component';
+import { ViewUserComponent } from './manage-users/view-user/view-user.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { JwtInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, NavComponent, ManageUsersComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -24,10 +28,12 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
     }),
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ModalModule.forRoot()
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })
