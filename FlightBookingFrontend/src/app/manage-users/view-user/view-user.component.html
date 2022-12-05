@@ -1,1 +1,15 @@
-<p style="margin-top: 200px;">view-user works!</p>
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-4 d-flex">
+        <img src="assets/img/user.png" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{user.firstName}}  {{user.lastName}}</h5>
+          <h6 class="card-subtitle mb-2">Role: {{user.role}}</h6>
+          <p class="card-text m-0">Email: {{user.email}}.</p>
+          <p class="card-text">Username: {{user.username}}</p>
+        </div>
+      </div>
+    </div>
+  </div>

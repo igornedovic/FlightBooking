@@ -55,7 +55,7 @@ namespace FlightBookingBackend.Services.Services
 
         public async Task<UserReadDto> LoginAsync(string username, string password)
         {
-            var user = await _unitOfWork.UserRepository.GetUserByUsername(username);
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
 
             if (user == null)
             {
@@ -101,6 +101,15 @@ namespace FlightBookingBackend.Services.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        public async Task<List<UserReadDto>> GetAllUsersByAdminAsync()
+        {
+            var users = await _unitOfWork.UserRepository.GetAllUsersByAdminAsync();
+
+            if (users == null) return null;
+
+            return _mapper.Map<List<UserReadDto>>(users);
         }
     }
 }

@@ -11,5 +11,6 @@ namespace FlightBookingBackend.Data.Interfaces
         public Task<UserReadDto> RegisterAsync(UserCreateDto userCreateDto);
         public Task<bool> CheckUsernameAsync(string username);
         public Task<UserReadDto> LoginAsync(string username, string password);
+        public Task<List<UserReadDto>> GetAllUsersByAdminAsync();
     }
 }

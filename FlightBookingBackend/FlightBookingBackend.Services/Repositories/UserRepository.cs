@@ -32,9 +32,14 @@ namespace FlightBookingBackend.Services.Repositories
 
         }
 
-        public async Task<User> GetUserByUsername(string username)
+        public async Task<User> GetUserByUsernameAsync(string username)
         {
             return await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
+        }
+
+        public async Task<List<User>> GetAllUsersByAdminAsync()
+        {
+            return await _context.Users.Where(u => u.Role != Roles.Administrator).ToListAsync();
         }
     }
 }

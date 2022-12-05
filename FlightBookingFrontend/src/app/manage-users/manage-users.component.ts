@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
+import { Subscription } from 'rxjs';
+
+import { User } from '../models/user.model';
+import { UserService } from '../services/user.service';
 import { NewUserComponent } from './new-user/new-user.component';
 
 @Component({
@@ -7,13 +11,25 @@ import { NewUserComponent } from './new-user/new-user.component';
   templateUrl: './manage-users.component.html',
   styleUrls: ['./manage-users.component.css']
 })
-export class ManageUsersComponent implements OnInit {
+export class ManageUsersComponent implements OnInit, OnDestroy {
   bsModalRef?: BsModalRef;
+  agents: User[] = [];
+  visitors: User[] = [];
+  private agentSub: Subscription;
+  private visitorSub: Subscription;
 
-  constructor(private modalService: BsModalService) {}
+  constructor(private modalService: BsModalService, private userService: UserService) {}
 
   ngOnInit(): void {
-    
+    this.userService.getAllUsers().subscribe(() => {});
+
+    this.agentSub = this.userService.agents.subscribe(agents => {
+      this.agents = agents;
+    })
+
+    this.visitorSub = this.userService.visitors.subscribe(visitors => {
+      this.visitors = visitors;
+    })
   }
  
   openNewUserModal() {
@@ -28,5 +44,13 @@ export class ManageUsersComponent implements OnInit {
     this.bsModalRef.setClass('modal-lg');
   }
 
+  ngOnDestroy() {
+    if (this.agentSub) {
+      this.agentSub.unsubscribe();
+    }
 
+    if (this.visitorSub) {
+      this.visitorSub.unsubscribe();
+    }
+  }
 }

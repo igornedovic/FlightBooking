@@ -10,6 +10,7 @@ namespace FlightBookingBackend.Data.Interfaces
     {
         public Task<bool> CheckUsernameAsync(string username);
         public void Create(User user);
-        public Task<User> GetUserByUsername(string username);
+        public Task<User> GetUserByUsernameAsync(string username);
+        public Task<List<User>> GetAllUsersByAdminAsync();
     }
 }

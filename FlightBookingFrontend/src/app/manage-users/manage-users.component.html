@@ -1,12 +1,12 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-4">
-            <app-view-user></app-view-user>
+        <div class="col-lg-4" *ngFor="let agent of agents">
+            <app-view-user [user]="agent"></app-view-user>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-4">
-            <app-view-user></app-view-user>
+        <div class="col-lg-4" *ngFor="let visitor of visitors">
+            <app-view-user [user]="visitor"></app-view-user>
         </div>
     </div>
     <button type="button" id="addUser" class="btn btn-secondary" (click)="openNewUserModal()"><i class="fa fa-plus"></i></button>

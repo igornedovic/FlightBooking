@@ -54,5 +54,16 @@ namespace FlightBookingBackend.API.Controllers
             return Ok(loggedInUser);
         }
 
+        // GET api/account/users
+        [HttpGet("users")]
+        public async Task<ActionResult<List<UserReadDto>>> GetAllUsersByAdmin()
+        {
+            var users = await _userService.GetAllUsersByAdminAsync();
+
+            if (users == null || users.Count == 0) return NotFound("No users found!");
+
+            return Ok(users);
+        }
+
     }
 }
