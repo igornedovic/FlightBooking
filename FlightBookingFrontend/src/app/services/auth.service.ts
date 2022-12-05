@@ -39,6 +39,18 @@ export class AuthService {
     );
   }
 
+  get user() {
+    return this._user.asObservable().pipe(
+      map((user) => {
+        if (user) {
+          return user;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
   login(username: string, password: string) {
     let user: User;
 
@@ -118,6 +130,34 @@ export class AuthService {
         return !!user;
       })
     );
+  }
+
+  roleMatch(roles: string[]): boolean {
+    let isRoleMatch = false;
+    let userRole;
+    
+    this.user.subscribe(user => {
+      if (user) {
+        userRole = this.getRoleFromToken(user.token).role;
+      }
+    })
+
+    roles.forEach(role => {
+      if (role == userRole) {
+        isRoleMatch = true;
+      }
+    })
+
+    return isRoleMatch;
+  }
+
+  getRoleFromToken(token: any) {
+    return JSON.parse(atob(token.split('.')[1]));
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    this._user.next(null);
   }
 
 }

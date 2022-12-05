@@ -1,4 +1,9 @@
 a:link {
     font-size: 1.2em;
     color: white;
+    text-decoration: none;
+}
+
+.logout > * {
+    color: white;
 }

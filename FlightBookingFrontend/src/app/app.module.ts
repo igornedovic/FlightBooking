@@ -11,9 +11,10 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { NavComponent } from './home/nav/nav.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { ManageUsersComponent } from './manage-users/manage-users.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, NavComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, NavComponent, ManageUsersComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
