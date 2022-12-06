@@ -74,6 +74,7 @@ export class AuthService {
           this.storeAuthData(user);
 
           this._user.next(user);
+          return user;
         })
       );
   }

@@ -9,6 +9,7 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class AdminGuard implements CanActivate {
+
   constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {}
 
   canActivate(
@@ -24,11 +25,12 @@ export class AdminGuard implements CanActivate {
       }
 
       this.toastr.error('You cannot enter this area');
-      this.router.navigateByUrl('/home');
-      return false;
-    }
 
-    this.router.navigateByUrl('/login');
+      this.authService.user.subscribe(user => {
+        this.router.navigateByUrl('/' + user?.role.toLocaleLowerCase());
+        return false;
+      })
+    }
   }
   
 }

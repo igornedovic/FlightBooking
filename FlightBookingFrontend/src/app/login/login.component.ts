@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 import { AuthService } from '../services/auth.service';
 
@@ -25,7 +26,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin() {
     this.loginSub = this.authService.login(this.loginForm.get('username').value, this.loginForm.get('password').value).subscribe(response => {
-      this.router.navigateByUrl('/home');
+      for (let i = 0; i < environment.roles.length; i++) {
+        if (response.role === environment.roles[i]) {
+          console.log('/'+ environment.roles[i].toLowerCase());
+          this.router.navigateByUrl('/'+ environment.roles[i].toLowerCase());
+        }
+      }
     });
   }
 

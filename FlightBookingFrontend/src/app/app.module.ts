@@ -8,17 +8,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { NavComponent } from './home/nav/nav.component';
+import { NavComponent } from './shared/nav/nav.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
-import { ManageUsersComponent } from './manage-users/manage-users.component';
-import { NewUserComponent } from './manage-users/new-user/new-user.component';
-import { ViewUserComponent } from './manage-users/view-user/view-user.component';
+import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
+import { NewUserComponent } from './admin/manage-users/new-user/new-user.component';
+import { ViewUserComponent } from './admin/manage-users/view-user/view-user.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { JwtInterceptor } from './interceptors/token.interceptor';
+import { AdminComponent } from './admin/admin.component';
+import { AgentComponent } from './agent/agent.component';
+import { VisitorComponent } from './visitor/visitor.component';
+import { FlightsComponent } from './shared/flights/flights.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent],
+  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

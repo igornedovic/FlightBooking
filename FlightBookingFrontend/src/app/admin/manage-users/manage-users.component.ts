@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 
-import { User } from '../models/user.model';
-import { UserService } from '../services/user.service';
+import { User } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service';
 import { NewUserComponent } from './new-user/new-user.component';
 
 @Component({
