@@ -21,5 +21,10 @@ namespace FlightBookingBackend.Services.Repositories
         {
             return await _context.Cities.ToListAsync();
         }
+
+        public async Task<City> GetCityByIdAsync(int id)
+        {
+            return await _context.Cities.SingleOrDefaultAsync(c => c.CityId == id);
+        }
     }
 }

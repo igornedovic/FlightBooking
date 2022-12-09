@@ -18,12 +18,24 @@ namespace FlightBookingBackend.API.Controllers
             _flightService = flightService;
         }
 
+        // GET api/flights
+        [HttpGet]
+        public async Task<ActionResult<List<FlightReadDto>>> GetAllFlights()
+        {
+            var flights = await _flightService.GetAllFlightsAsync();
+
+            if (flights == null || flights.Count == 0) return NotFound("No flights found!");
+
+            return Ok(flights);
+        }
+
         // POST api/flights
+        [HttpPost]
         public async Task<ActionResult<FlightReadDto>> AddFlight(FlightCreateDto flightCreateDto)
         {
             var newFlight = await _flightService.AddFlightAsync(flightCreateDto);
 
-            if (newFlight == null) return BadRequest("Failed to add a new flight");
+            if (newFlight == null) return BadRequest("Failed to add a new flight!");
 
             return Ok(newFlight);
         }

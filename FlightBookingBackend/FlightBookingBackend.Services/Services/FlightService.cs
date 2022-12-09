@@ -16,12 +16,35 @@ namespace FlightBookingBackend.Services.Services
         public FlightService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;        
+            _mapper = mapper;
+        }
+
+        public async Task<List<FlightReadDto>> GetAllFlightsAsync()
+        {
+            var flights = await _unitOfWork.FlightRepository.GetAllFlightsAsync();
+
+            if (flights == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<List<FlightReadDto>>(flights);
         }
 
         public async Task<FlightReadDto> AddFlightAsync(FlightCreateDto flightCreateDto)
         {
             var flight = _mapper.Map<Flight>(flightCreateDto);
+
+            var flyingFromCity = await _unitOfWork.CityRepository.GetCityByIdAsync(flight.FlyingFromId);
+            var flyingToCity = await _unitOfWork.CityRepository.GetCityByIdAsync(flight.FlyingToId);
+
+            if (flyingFromCity == null || flyingToCity == null)
+            {
+                return null;
+            }
+
+            flight.FlyingFrom = flyingFromCity;
+            flight.FlyingTo = flyingToCity;
 
             _unitOfWork.FlightRepository.AddFlight(flight);
 
@@ -32,5 +55,6 @@ namespace FlightBookingBackend.Services.Services
 
             return null;
         }
+
     }
 }

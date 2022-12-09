@@ -8,6 +8,7 @@ namespace FlightBookingBackend.Data.Interfaces
 {
     public interface IFlightService
     {
+        public Task<List<FlightReadDto>> GetAllFlightsAsync();
         public Task<FlightReadDto> AddFlightAsync(FlightCreateDto flightCreateDto);
     }
 }
