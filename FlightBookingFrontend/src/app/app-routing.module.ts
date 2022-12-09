@@ -9,6 +9,7 @@ import { AdminComponent } from './admin/admin.component';
 import { FlightsComponent } from './shared/flights/flights.component';
 import { AgentComponent } from './agent/agent.component';
 import { VisitorComponent } from './visitor/visitor.component';
+import { NewFlightComponent } from './agent/new-flight/new-flight.component';
 
 const routes: Routes = [
   {
@@ -39,7 +40,7 @@ const routes: Routes = [
         component: ManageUsersComponent,
         canActivate: [AdminGuard],
         data: {
-          allowedRoles: ['Administrator']
+          allowedRole: 'Administrator'
         }
       }
     ]
@@ -56,7 +57,7 @@ const routes: Routes = [
       },
       {
         path: 'flights',
-        component: FlightsComponent
+        component: NewFlightComponent
       },
     ]
   },

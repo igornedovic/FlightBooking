@@ -13,8 +13,8 @@ import { NewUserComponent } from './new-user/new-user.component';
 })
 export class ManageUsersComponent implements OnInit, OnDestroy {
   bsModalRef?: BsModalRef;
-  agents: User[] = [];
-  visitors: User[] = [];
+  agents: User[];
+  visitors: User[];
   private agentSub: Subscription;
   private visitorSub: Subscription;
 

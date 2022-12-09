@@ -6,7 +6,7 @@
               >Flights</a
             >
           </li>
-          <li class="nav-item" *ngIf="authService.roleMatch(['Administrator'])">
+          <li class="nav-item" *ngIf="authService.roleMatch('Administrator')">
             <a class="nav-link" routerLink="manage-users" routerLinkActive="active" style="color: white;"
               >Users</a
             >

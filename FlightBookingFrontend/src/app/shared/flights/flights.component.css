@@ -1,0 +1,7 @@
+tr td:first-child {
+    width: 15%;
+}
+
+tr td:last-child {
+    width: 10%;
+}

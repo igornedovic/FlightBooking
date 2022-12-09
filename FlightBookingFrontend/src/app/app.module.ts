@@ -19,9 +19,10 @@ import { AdminComponent } from './admin/admin.component';
 import { AgentComponent } from './agent/agent.component';
 import { VisitorComponent } from './visitor/visitor.component';
 import { FlightsComponent } from './shared/flights/flights.component';
+import { NewFlightComponent } from './agent/new-flight/new-flight.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent],
+  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

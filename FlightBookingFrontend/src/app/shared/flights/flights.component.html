@@ -1,1 +1,24 @@
-<p style="margin-top: 200px;">flights works!</p>
+<table class="table table-bordered table-striped" style="width: 100%">
+  <thead>
+    <tr>
+      <th>Flying from</th>
+      <th>Flying to</th>
+      <th>Departure date</th>
+      <th>Status</th>
+      <th>Number of seats</th>
+      <th>Layover number</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let flight of flights">
+      <td>{{flight.flyingFromName}}</td>
+      <td>{{flight.flyingToName}}</td>
+      <td>{{flight.date | date: 'MM/dd/yyyy'}}</td>
+      <td>{{flight.status}}</td>
+      <td>{{flight.numberOfSeats}}</td>
+      <td>{{flight.layoverNumber}}</td>
+      <td></td>  
+    </tr>
+  </tbody>
+</table>
