@@ -8,6 +8,6 @@ namespace FlightBookingBackend.Data.Interfaces
 {
     public interface ICityService
     {
-        public Task<List<CityReadDto>> GetAllCities();
+        public Task<List<CityReadDto>> GetAllCitiesAsync();
     }
 }

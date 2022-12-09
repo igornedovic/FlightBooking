@@ -14,6 +14,8 @@ namespace FlightBookingBackend.Data.Helpers
         {
             CreateMap<UserCreateDto, User>();
             CreateMap<User, UserReadDto>();
+
+            CreateMap<City, CityReadDto>();
         }
     }
 }

@@ -8,6 +8,7 @@ namespace FlightBookingBackend.Data.Interfaces
     public interface IUnitOfWork
     {
         public IUserRepository UserRepository { get; set; }
+        public ICityRepository CityRepository { get; set; }
         public Task<bool> CommitAsync();
     }
 }
