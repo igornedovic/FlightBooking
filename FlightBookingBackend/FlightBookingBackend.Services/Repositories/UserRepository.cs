@@ -29,7 +29,6 @@ namespace FlightBookingBackend.Services.Repositories
         public void Create(User user)
         {
             _context.Add(user);
-
         }
 
         public async Task<User> GetUserByUsernameAsync(string username)

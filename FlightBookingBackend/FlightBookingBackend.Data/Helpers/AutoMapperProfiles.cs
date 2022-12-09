@@ -16,6 +16,16 @@ namespace FlightBookingBackend.Data.Helpers
             CreateMap<User, UserReadDto>();
 
             CreateMap<City, CityReadDto>();
+
+            CreateMap<FlightCreateDto, Flight>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => 
+                    (FlightStatus)Enum.Parse(typeof(FlightStatus), src.Status)));
+            
+            CreateMap<Flight, FlightReadDto>()
+                .ForMember(dest => dest.FlyingFromName, opt => opt.MapFrom(src =>
+                    src.FlyingFrom.Name))
+                .ForMember(dest => dest.FlyingToName, opt => opt.MapFrom(src =>
+                    src.FlyingTo.Name));
         }
     }
 }

@@ -9,6 +9,7 @@ namespace FlightBookingBackend.Data.Interfaces
     {
         public IUserRepository UserRepository { get; set; }
         public ICityRepository CityRepository { get; set; }
+        public IFlightRepository FlightRepository { get; set; }
         public Task<bool> CommitAsync();
     }
 }
