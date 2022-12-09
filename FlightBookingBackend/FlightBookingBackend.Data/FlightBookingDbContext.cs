@@ -16,6 +16,8 @@ namespace FlightBookingBackend.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Flight> Flights { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -29,6 +31,18 @@ namespace FlightBookingBackend.Data
             modelBuilder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.PasswordSalt).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Role).IsRequired();
+
+            modelBuilder.Entity<City>().Property(c => c.Name).IsRequired();
+
+            modelBuilder.Entity<Flight>().Property(f => f.Date).IsRequired();
+            modelBuilder.Entity<Flight>().Property(f => f.NumberOfSeats).IsRequired();
+            modelBuilder.Entity<Flight>().Property(f => f.LayoverNumber).IsRequired();
+            modelBuilder.Entity<Flight>().Property(f => f.Status)
+                .HasConversion(f => f.ToString(), t => (FlightStatus)Enum.Parse(typeof(FlightStatus), t));
+            modelBuilder.Entity<Flight>().HasOne(f => f.FlyingFrom).WithMany()
+                .HasForeignKey(f => f.FlyingFromId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Flight>().HasOne(f => f.FlyingTo).WithMany()
+                .HasForeignKey(f => f.FlyingToId).OnDelete(DeleteBehavior.Restrict);
         }
 
     }
