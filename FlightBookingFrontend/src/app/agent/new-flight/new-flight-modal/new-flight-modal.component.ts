@@ -16,6 +16,8 @@ import { FlightService } from 'src/app/services/flight.service';
 export class NewFlightModalComponent implements OnInit {
   title?: string;
   cities?: City[];
+  flyingFromCities: City[];
+  flyingToCities: City[];
   closeBtnName?: string;
   newFlightForm: FormGroup;
   private flightSub: Subscription;
@@ -37,7 +39,19 @@ export class NewFlightModalComponent implements OnInit {
       layoverNumber: new FormControl('', Validators.required),
     });
 
+    this.flyingFromCities = this.cities.slice();
+    this.flyingToCities = this.cities.slice();
+
     this.bsConfig = Object.assign({}, { containerClass: this.colorTheme });
+  }
+
+  onChange(event: HTMLInputElement) {
+    if (event.id === 'ff') {
+      this.flyingToCities = this.cities.filter(c => c.cityId != +event.value);
+    } else {
+      this.flyingFromCities = this.cities.filter(c => c.cityId != +event.value);
+    }
+    console.log(this.cities);
   }
 
   onAddFlight() {
