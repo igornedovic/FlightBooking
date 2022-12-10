@@ -20,9 +20,11 @@ import { AgentComponent } from './agent/agent.component';
 import { VisitorComponent } from './visitor/visitor.component';
 import { FlightsComponent } from './shared/flights/flights.component';
 import { NewFlightComponent } from './agent/new-flight/new-flight.component';
+import { NewFlightModalComponent } from './agent/new-flight/new-flight-modal/new-flight-modal.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent],
+  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent, NewFlightModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -33,7 +35,8 @@ import { NewFlightComponent } from './agent/new-flight/new-flight.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
-import { Flight } from '../models/flight.model';
+import { Flight, FlightInterface } from '../models/flight.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,34 @@ export class FlightService {
 
   get flights() {
     return this._flights.asObservable();
+  }
+
+  addNewFlight(flightForm: FlightInterface) {
+    let newFlight;
+
+    return this.http
+      .post(this.apiUrl + 'flights', flightForm)
+      .pipe(
+        take(1),
+        switchMap((response: Flight) => {
+          newFlight = new Flight(
+            response.flightId,
+            response.flyingFromName,
+            response.flyingToName,
+            response.date,
+            response.status,
+            response.numberOfSeats,
+            response.layoverNumber
+          )
+
+          return this.flights;
+        }),
+        take(1),
+        tap((flights) => {
+          const newFlights = flights.concat(newFlight);
+          this._flights.next(newFlights);
+        })
+      );
   }
 
   getAllFlights() {

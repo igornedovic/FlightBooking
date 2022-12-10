@@ -30,6 +30,9 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.toastr.error("You are not allowed to perform this action!")
               }
               break;
+            case 404:
+                this.toastr.error(error?.error);            
+              break;
             default:
               this.toastr.error('Something unexpected went wrong');
               console.log(error);

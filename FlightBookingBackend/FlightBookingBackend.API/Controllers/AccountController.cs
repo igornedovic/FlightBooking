@@ -60,7 +60,7 @@ namespace FlightBookingBackend.API.Controllers
         {
             var users = await _userService.GetAllUsersByAdminAsync();
 
-            if (users == null || users.Count == 0) return NotFound("No users found!");
+            if (users == null || users.Count == 0) return NotFound("No existing users found!");
 
             return Ok(users);
         }

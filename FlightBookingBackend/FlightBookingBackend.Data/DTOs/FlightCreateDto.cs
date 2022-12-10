@@ -15,7 +15,7 @@ namespace FlightBookingBackend.Data.DTOs
         [Required]
         public int LayoverNumber { get; set; }
         [Required]
-        public string Status { get; set; }
+        public string Status { get; set; } = "Active";
         [Required]
         public int FlyingFromId { get; set; }
         [Required]

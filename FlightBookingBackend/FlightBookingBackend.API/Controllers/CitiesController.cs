@@ -24,7 +24,7 @@ namespace FlightBookingBackend.API.Controllers
         {
             var cities = await _cityService.GetAllCitiesAsync();
 
-            if (cities == null || cities.Count == 0) return NotFound("No cities found!");
+            if (cities == null || cities.Count == 0) return NotFound("No existing cities found!");
 
             return Ok(cities);
         }

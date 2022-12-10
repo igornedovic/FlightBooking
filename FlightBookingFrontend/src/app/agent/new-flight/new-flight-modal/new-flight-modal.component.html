@@ -1,0 +1,80 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{ title }}</h4>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="bsModalRef.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="newFlightForm" (ngSubmit)="onAddFlight()">
+      <div class="container">
+        <div class="row mt-3 mb-3">
+          <div class="col-6">
+              <select class="form-select form-control" formControlName="flyingFromId">
+                  <option value="" selected disabled>Flying from</option>
+                  <option *ngFor="let city of cities" [value]="city.cityId">{{city.name}}</option>
+              </select>
+          </div>
+          <div class="col-6">
+            <select class="form-select form-control" formControlName="flyingToId">
+                <option value="" selected disabled>Flying to</option>
+                <option *ngFor="let city of cities" [value]="city.cityId">{{city.name}}</option>
+            </select>
+        </div>
+        </div>
+        <div class="row mt-3 mb-3">
+          <div class="col-6 offset-3">
+            <input
+              type="text"
+              formControlName="date"
+              class="form-control"
+              placeholder="Departure date"
+              required
+              bsDatepicker
+              [bsConfig]="bsConfig"
+            />
+          </div>
+        </div>
+        <div class="row mt-3 mb-3">
+          <div class="col-6">
+            <input
+              type="number"
+              formControlName="numberOfSeats"
+              class="form-control"
+              placeholder="Number of seats"
+              [min]="0"
+              [max]="300"
+              required
+            />
+          </div>   
+          <div class="col-6">
+            <input
+              type="number"
+              formControlName="layoverNumber"
+              class="form-control"
+              placeholder="Layover number"
+              [min]="0"
+              [max]="10"
+              required
+            />
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col text-right">
+            <button
+              type="submit"
+              class="btn btn-secondary btn-block mt-3 mb-3"
+              [disabled]="newFlightForm.invalid"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

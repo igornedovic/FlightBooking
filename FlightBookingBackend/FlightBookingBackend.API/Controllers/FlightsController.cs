@@ -24,7 +24,7 @@ namespace FlightBookingBackend.API.Controllers
         {
             var flights = await _flightService.GetAllFlightsAsync();
 
-            if (flights == null || flights.Count == 0) return NotFound("No flights found!");
+            if (flights == null || flights.Count == 0) return NotFound("No existing flights found!");
 
             return Ok(flights);
         }
