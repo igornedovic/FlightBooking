@@ -18,6 +18,7 @@
       <td>{{ flight.status }}</td>
       <td>{{ flight.numberOfSeats }}</td>
       <td>{{ flight.layoverNumber }}</td>
+
       <td *ngIf="authService.roleMatch('Administrator')">
         <button
           type="button"
@@ -27,6 +28,20 @@
         >
           <i class="fa fa-ban"></i>
         </button>
+      </td>
+      <td
+        *ngIf="
+          authService.roleMatch('Agent') && flight.numberOfSeats < 5; else empty"
+      >
+        <button
+          type="button"
+          class="btn btn-danger mx-4 no-click"
+          tooltip="Less than 5 seats left for this flight!"
+          placement="right"
+        >
+          <i class="fa fa-exclamation"></i>
+        </button>
+        <ng-template #empty><th></th></ng-template>
       </td>
     </tr>
   </tbody>

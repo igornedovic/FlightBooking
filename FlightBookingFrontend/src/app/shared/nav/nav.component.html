@@ -14,7 +14,7 @@
         </ul>
 
         <div class="logout" style="font-size: 1.1em;" *ngIf="(authService.user | async) as user">
-            <i class="fa fa-user d-inline-block p-2 mr-3" ><span class="ml-1">{{user.username}}</span></i>
+            <i class="fa fa-user d-inline-block p-2 mr-3" ><span class="ml-1">{{user.username}}, Role: {{user.role}}</span></i>
             <a routerLink="/login" routerLinkActive="active" (click)="logout()">Logout</a>
       </div>
       </div>

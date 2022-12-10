@@ -11,6 +11,7 @@ import { AgentComponent } from './agent/agent.component';
 import { VisitorComponent } from './visitor/visitor.component';
 import { NewFlightComponent } from './agent/new-flight/new-flight.component';
 import { AdminFlightsComponent } from './admin/admin-flights/admin-flights.component';
+import { FlightsSearchComponent } from './visitor/flights-search/flights-search.component';
 
 const routes: Routes = [
   {
@@ -74,7 +75,7 @@ const routes: Routes = [
       },
       {
         path: 'flights',
-        component: FlightsComponent
+        component: FlightsSearchComponent
       },
 
     ]

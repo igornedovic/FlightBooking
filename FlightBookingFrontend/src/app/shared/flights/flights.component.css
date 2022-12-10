@@ -1,7 +1,11 @@
-tr td:first-child {
+tr td {
     width: 15%;
 }
 
 tr td:last-child {
     width: 10%;
+}
+
+.table th, td {
+    text-align: center;
 }

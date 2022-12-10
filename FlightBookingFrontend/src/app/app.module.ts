@@ -23,9 +23,11 @@ import { NewFlightComponent } from './agent/new-flight/new-flight.component';
 import { NewFlightModalComponent } from './agent/new-flight/new-flight-modal/new-flight-modal.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AdminFlightsComponent } from './admin/admin-flights/admin-flights.component';
+import { FlightsSearchComponent } from './visitor/flights-search/flights-search.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent, NewFlightModalComponent, AdminFlightsComponent],
+  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent, NewFlightModalComponent, AdminFlightsComponent, FlightsSearchComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -37,7 +39,8 @@ import { AdminFlightsComponent } from './admin/admin-flights/admin-flights.compo
     ReactiveFormsModule,
     HttpClientModule,
     ModalModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
