@@ -24,9 +24,19 @@ namespace FlightBookingBackend.Services.Repositories
                                          .ToListAsync();
         }
 
+        public async Task<Flight> GetFlightByIdAsync(int id)
+        {
+            return await _context.Flights.SingleOrDefaultAsync(f => f.FlightId == id);
+        }
+
         public void AddFlight(Flight flight)
         {
             _context.Add(flight);
+        }
+
+        public void ChangeFlightStatusToCancel(Flight flightToCancel)
+        {
+            _context.Update(flightToCancel);
         }
     }
 }

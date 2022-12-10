@@ -10,5 +10,6 @@ namespace FlightBookingBackend.Data.Interfaces
     {
         public Task<List<FlightReadDto>> GetAllFlightsAsync();
         public Task<FlightReadDto> AddFlightAsync(FlightCreateDto flightCreateDto);
+        public Task<bool> ChangeFlightStatusToCancelAsync(int id);
     }
 }

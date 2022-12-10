@@ -56,5 +56,25 @@ namespace FlightBookingBackend.Services.Services
             return null;
         }
 
+        public async Task<bool> ChangeFlightStatusToCancelAsync(int id)
+        {
+            var flightToCancel = await _unitOfWork.FlightRepository.GetFlightByIdAsync(id);
+
+            if (flightToCancel == null)
+            {
+                return false;
+            }
+
+            flightToCancel.Status = FlightStatus.Cancelled;
+
+            _unitOfWork.FlightRepository.ChangeFlightStatusToCancel(flightToCancel);
+
+            if (await _unitOfWork.CommitAsync())
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

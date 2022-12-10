@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
-import { Flight, FlightInterface } from '../models/flight.model';
+import { Flight, FlightInterface, FlightStatus } from '../models/flight.model';
 
 @Injectable({
   providedIn: 'root'
@@ -72,5 +72,23 @@ export class FlightService {
         this._flights.next(flights);
       })
     );
+  }
+
+  cancelFlight(id: number, status: FlightStatus = FlightStatus.Cancelled) {
+    let responseText: string;
+    return this.http.put(this.apiUrl + `flights/${id}/cancel`, {}, {responseType: 'text'}).pipe(
+      switchMap(response => {
+        responseText = response;
+        return this.flights;
+      }),
+      take(1),
+      map(flights => {
+        const cancelledFlightIndex = flights.findIndex(f => f.flightId == id);
+        flights[cancelledFlightIndex].status = status;
+        console.log(flights);
+        this._flights.next(flights);
+        return responseText;
+      })
+    )
   }
 }

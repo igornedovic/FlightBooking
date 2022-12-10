@@ -22,9 +22,10 @@ import { FlightsComponent } from './shared/flights/flights.component';
 import { NewFlightComponent } from './agent/new-flight/new-flight.component';
 import { NewFlightModalComponent } from './agent/new-flight/new-flight-modal/new-flight-modal.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { AdminFlightsComponent } from './admin/admin-flights/admin-flights.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent, NewFlightModalComponent],
+  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent, NewFlightModalComponent, AdminFlightsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

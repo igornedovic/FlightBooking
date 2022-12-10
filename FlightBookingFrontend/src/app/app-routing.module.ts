@@ -10,6 +10,7 @@ import { FlightsComponent } from './shared/flights/flights.component';
 import { AgentComponent } from './agent/agent.component';
 import { VisitorComponent } from './visitor/visitor.component';
 import { NewFlightComponent } from './agent/new-flight/new-flight.component';
+import { AdminFlightsComponent } from './admin/admin-flights/admin-flights.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,7 @@ const routes: Routes = [
       },
       {
         path: 'flights',
-        component: FlightsComponent
+        component: AdminFlightsComponent
       },
       {
         path: 'manage-users',

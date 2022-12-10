@@ -39,5 +39,15 @@ namespace FlightBookingBackend.API.Controllers
 
             return Ok(newFlight);
         }
+
+        // PUT api/flights/{id}/cancel
+        [HttpPut("{id}/cancel")]
+        public async Task<ActionResult> UpdateStatus(int id)
+        {
+            if (await _flightService.ChangeFlightStatusToCancelAsync(id))
+                return Ok("Successfully changed flight status!");
+
+            return BadRequest("Failed to change flight status!");
+        }
     }
 }

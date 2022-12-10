@@ -12,13 +12,22 @@
   </thead>
   <tbody>
     <tr *ngFor="let flight of flights">
-      <td>{{flight.flyingFromName}}</td>
-      <td>{{flight.flyingToName}}</td>
-      <td>{{flight.date | date: 'MM/dd/yyyy'}}</td>
-      <td>{{flight.status}}</td>
-      <td>{{flight.numberOfSeats}}</td>
-      <td>{{flight.layoverNumber}}</td>
-      <td></td>  
+      <td>{{ flight.flyingFromName }}</td>
+      <td>{{ flight.flyingToName }}</td>
+      <td>{{ flight.date | date : "MM/dd/yyyy" }}</td>
+      <td>{{ flight.status }}</td>
+      <td>{{ flight.numberOfSeats }}</td>
+      <td>{{ flight.layoverNumber }}</td>
+      <td *ngIf="authService.roleMatch('Administrator')">
+        <button
+          type="button"
+          class="btn btn-danger mx-4"
+          [disabled]="flight.status === statusCancelled"
+          (click)="onCancelFlight(flight.flightId)"
+        >
+          <i class="fa fa-ban"></i>
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>

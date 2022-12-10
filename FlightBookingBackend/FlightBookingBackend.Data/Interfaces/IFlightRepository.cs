@@ -9,6 +9,8 @@ namespace FlightBookingBackend.Data.Interfaces
     public interface IFlightRepository
     {
         public Task<List<Flight>> GetAllFlightsAsync();
+        public Task<Flight> GetFlightByIdAsync(int id);
         public void AddFlight(Flight flight);
+        public void ChangeFlightStatusToCancel(Flight flightToCancel);
     }
 }
