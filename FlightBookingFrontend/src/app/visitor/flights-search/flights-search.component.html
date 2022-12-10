@@ -1,10 +1,53 @@
 <div class="container mt-4 p-4">
-    <div class="row justify-content-between mt-2 pt-4">
-      <div class="col-4">
-        <h2 class="text-secondary">Flight list</h2>
+  <form
+    #searchForm="ngForm"
+    class="form-inline mt-5"
+    (ngSubmit)="onSearchFlights()"
+  >
+    <div class="col-4 d-flex justify-content-center">
+      <div class="form-group">
+        <label>Flying from: </label>
+        <select
+          #flyingFrom
+          id="ff"
+          class="form-select form-control ml-1"
+          [(ngModel)]="flightQueryParams.flyingFrom"
+          name="flyingFrom"
+          (change)="onChange(flyingFrom)"
+          required
+        >
+          <option *ngFor="let city of flyingFromCities" [value]="city.name">
+            {{ city.name }}
+          </option>
+        </select>
       </div>
     </div>
-    <br /><br />
-  
-    <app-flights [flights]="flights"></app-flights>
-  </div>
+    <div class="col-4 d-flex justify-content-center">
+      <div class="form-group">
+        <label>Flying to: </label>
+        <select
+          #flyingTo
+          id="ft"
+          class="form-select form-control ml-1"
+          [(ngModel)]="flightQueryParams.flyingTo"
+          name="flyingTo"
+          (change)="onChange(flyingTo)"
+          required
+        >
+          <option *ngFor="let city of flyingToCities" [value]="city.name">
+            {{ city.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-4 d-flex justify-content-center">
+      <button type="submit" class="btn btn-secondary" [disabled]="searchForm.invalid">Search</button>
+    </div>
+  </form>
+
+  <br /><br />
+
+  <ng-container *ngIf="!isLoading && searchedFlights && searchedFlights.length > 0">
+    <app-flights [flights]="searchedFlights"></app-flights>
+  </ng-container>
+</div>

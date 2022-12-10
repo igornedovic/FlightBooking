@@ -51,7 +51,6 @@ export class NewFlightModalComponent implements OnInit {
     } else {
       this.flyingFromCities = this.cities.filter(c => c.cityId != +event.value);
     }
-    console.log(this.cities);
   }
 
   onAddFlight() {

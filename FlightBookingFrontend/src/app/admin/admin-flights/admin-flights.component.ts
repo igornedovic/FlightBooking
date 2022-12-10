@@ -15,7 +15,7 @@ export class AdminFlightsComponent implements OnInit, OnDestroy {
   constructor(private flightService: FlightService) { }
 
   ngOnInit() {
-    this.flightService.getAllFlights().subscribe(() => {});
+    this.flightService.getFlights().subscribe(() => {});
 
     this.flightSub = this.flightService.flights.subscribe(flights => {
       this.flights = flights;

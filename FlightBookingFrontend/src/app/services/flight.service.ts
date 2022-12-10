@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { Flight, FlightInterface, FlightStatus } from '../models/flight.model';
+import { FlightQueryParams } from '../models/flightQueryParams.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,8 +48,22 @@ export class FlightService {
       );
   }
 
-  getAllFlights() {
-    return this.http.get<Flight[]>(this.apiUrl + 'flights').pipe(
+  getFlights(flightQueryParams: FlightQueryParams = null) {
+    let queryParams = new HttpParams();
+
+    if (flightQueryParams) {
+
+      queryParams = queryParams.append('flyingFrom', flightQueryParams.flyingFrom);
+      queryParams = queryParams.append('flyingTo', flightQueryParams.flyingTo);
+
+      if (flightQueryParams.layoverNumber) {
+        queryParams = queryParams.append('layoverNumber', flightQueryParams.layoverNumber);
+      }
+    }
+
+    console.log(queryParams);
+
+    return this.http.get<Flight[]>(this.apiUrl + 'flights', {params: queryParams}).pipe(
       map((response) => {
         const flights: Flight[] = [];
 

@@ -24,7 +24,7 @@ export class NewFlightComponent implements OnInit, OnDestroy {
               private modalService: BsModalService) { }
 
   ngOnInit() {
-    this.flightService.getAllFlights().subscribe(() => {});
+    this.flightService.getFlights().subscribe(() => {});
 
     this.flightSub = this.flightService.flights.subscribe(flights => {
       this.flights = flights;
