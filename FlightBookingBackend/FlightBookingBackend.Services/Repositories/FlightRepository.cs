@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlightBookingBackend.Data;
+using FlightBookingBackend.Data.DTOs;
+using FlightBookingBackend.Data.Helpers;
 using FlightBookingBackend.Data.Interfaces;
 using FlightBookingBackend.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +19,17 @@ namespace FlightBookingBackend.Services.Repositories
             _context = context;
         }
 
-        public async Task<List<Flight>> GetAllFlightsAsync()
+        public IQueryable<Flight> GetSearchAndFilterQuery(FlightQueryParams queryParams)
         {
-            return await _context.Flights.Include(f => f.FlyingFrom)
-                                         .Include(f => f.FlyingTo)
-                                         .ToListAsync();
+            return _context.Flights.Include(f => f.FlyingFrom)
+                                   .Include(f => f.FlyingTo)
+                                   .Search(queryParams.FlyingFrom, queryParams.FlyingTo)
+                                   .Filter(queryParams.LayoverNumber);
+        }
+
+        public async Task<List<Flight>> GetFlightsAsync(IQueryable<Flight> query)
+        {
+            return await query.ToListAsync();
         }
 
         public async Task<Flight> GetFlightByIdAsync(int id)

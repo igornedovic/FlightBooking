@@ -19,9 +19,11 @@ namespace FlightBookingBackend.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<List<FlightReadDto>> GetAllFlightsAsync()
+        public async Task<List<FlightReadDto>> GetFlightsAsync(FlightQueryParams queryParams)
         {
-            var flights = await _unitOfWork.FlightRepository.GetAllFlightsAsync();
+            var query = _unitOfWork.FlightRepository.GetSearchAndFilterQuery(queryParams);
+
+            var flights = await _unitOfWork.FlightRepository.GetFlightsAsync(query);
 
             if (flights == null)
             {

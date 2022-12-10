@@ -20,9 +20,9 @@ namespace FlightBookingBackend.API.Controllers
 
         // GET api/flights
         [HttpGet]
-        public async Task<ActionResult<List<FlightReadDto>>> GetAllFlights()
+        public async Task<ActionResult<List<FlightReadDto>>> GetFlights([FromQuery]FlightQueryParams qParams)
         {
-            var flights = await _flightService.GetAllFlightsAsync();
+            var flights = await _flightService.GetFlightsAsync(qParams);
 
             if (flights == null || flights.Count == 0) return NotFound("No existing flights found!");
 
