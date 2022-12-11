@@ -14,17 +14,23 @@ export class FlightsComponent implements OnInit {
   @Input() flights: Flight[];
   cancelledFlightId: number;
   statusCancelled = FlightStatus.Cancelled;
+  currentDatePlusThree: Date = new Date();
 
   constructor(public authService: AuthService, 
               private flightService: FlightService,
               private toastrService: ToastrService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.currentDatePlusThree.setDate(this.currentDatePlusThree.getDate() + 3);
   }
 
   onCancelFlight(id: number) {
     this.flightService.cancelFlight(id).subscribe(response => {
       this.toastrService.success(response);
     });
+  }
+
+  onBookFlight() {
+
   }
 }

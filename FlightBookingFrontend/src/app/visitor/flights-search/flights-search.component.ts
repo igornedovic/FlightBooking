@@ -70,6 +70,10 @@ export class FlightsSearchComponent implements OnInit {
       .getFlights(this.flightQueryParams)
       .subscribe((flights) => {
         this.searchedFlights = flights;
+        this.searchedFlights.forEach(f => {
+          f.date = new Date(f.date);
+        })
+
         this.isLoading = false;
       }, error => {
         this.searchedFlights = null;
