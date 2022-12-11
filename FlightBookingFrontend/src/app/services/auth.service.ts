@@ -133,7 +133,7 @@ export class AuthService {
     );
   }
 
-  roleMatch(role: string): boolean {
+  roleMatch(roles: string[]): boolean {
     let isRoleMatch = false;
     let userRole;
     
@@ -143,9 +143,11 @@ export class AuthService {
       }
     })
 
-    if (role == userRole) {
-      isRoleMatch = true;
-    }
+    roles.forEach(role => {
+      if (role == userRole) {
+        isRoleMatch = true;
+      }
+    });
 
     return isRoleMatch;
   }

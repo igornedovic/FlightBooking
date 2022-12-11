@@ -6,12 +6,13 @@ import { AuthGuard } from './guard/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
 import { AdminComponent } from './admin/admin.component';
-import { FlightsComponent } from './shared/flights/flights.component';
 import { AgentComponent } from './agent/agent.component';
 import { VisitorComponent } from './visitor/visitor.component';
 import { NewFlightComponent } from './agent/new-flight/new-flight.component';
 import { AdminFlightsComponent } from './admin/admin-flights/admin-flights.component';
 import { FlightsSearchComponent } from './visitor/flights-search/flights-search.component';
+import { ReservationsComponent } from './agent/reservations/reservations.component';
+import { UserReservationComponent } from './visitor/user-reservation/user-reservation.component';
 
 const routes: Routes = [
   {
@@ -42,7 +43,7 @@ const routes: Routes = [
         component: ManageUsersComponent,
         canActivate: [AdminGuard],
         data: {
-          allowedRole: 'Administrator'
+          allowedRole: ['Administrator']
         }
       }
     ]
@@ -61,6 +62,10 @@ const routes: Routes = [
         path: 'flights',
         component: NewFlightComponent
       },
+      {
+        path: 'reservations',
+        component: ReservationsComponent,
+      }
     ]
   },
   {
@@ -77,7 +82,10 @@ const routes: Routes = [
         path: 'flights',
         component: FlightsSearchComponent
       },
-
+      {
+        path: 'reservations',
+        component: UserReservationComponent
+      }
     ]
   },
   {

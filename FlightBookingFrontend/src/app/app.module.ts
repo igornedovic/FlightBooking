@@ -26,9 +26,12 @@ import { AdminFlightsComponent } from './admin/admin-flights/admin-flights.compo
 import { FlightsSearchComponent } from './visitor/flights-search/flights-search.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ReservationComponent } from './shared/reservation/reservation.component';
+import { ReservationsComponent } from './agent/reservations/reservations.component';
+import { UserReservationComponent } from './visitor/user-reservation/user-reservation.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent, NewFlightModalComponent, AdminFlightsComponent, FlightsSearchComponent],
+  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent, NewFlightModalComponent, AdminFlightsComponent, FlightsSearchComponent, ReservationComponent, ReservationsComponent, UserReservationComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

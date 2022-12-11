@@ -19,7 +19,7 @@
       <td>{{ flight.numberOfSeats }}</td>
       <td>{{ flight.layoverNumber }}</td>
 
-      <td *ngIf="authService.roleMatch('Administrator')">
+      <td *ngIf="authService.roleMatch(['Administrator'])">
         <button
           type="button"
           class="btn btn-danger mx-4"
@@ -32,16 +32,16 @@
 
       <td
         *ngIf="
-          authService.roleMatch('Agent') && flight.numberOfSeats < 5;
+          authService.roleMatch(['Agent']) && flight.numberOfSeats < 5;
           else empty
         "
       >
-        <div class="d-inline-block" title="Less than 5 seats left for this flight!" placement="right">
-          <button
-            type="button"
-            class="btn btn-danger mx-4"         
-            disabled
-          >
+        <div
+          class="d-inline-block"
+          title="Less than 5 seats left for this flight!"
+          placement="right"
+        >
+          <button type="button" class="btn btn-danger mx-4" disabled>
             <i class="fa fa-exclamation"></i>
           </button>
         </div>
@@ -63,13 +63,17 @@
         <ng-template #empty><th></th></ng-template>
       </td>
 
-      <ng-container *ngIf="authService.roleMatch('Visitor')">
+      <ng-container *ngIf="authService.roleMatch(['Visitor'])">
         <td>
-          <div class="d-inline-block" title="This flight is within three days!" placement="right">
+          <div
+            class="d-inline-block"
+            title="This flight is within three days or is cancelled!"
+            placement="right"
+          >
             <button
               type="button"
               class="btn btn-primary mx-4"
-              [disabled]="currentDatePlusThree > flight.date"
+              [disabled]="currentDatePlusThree > flight.date || flight.status === statusCancelled"
               (click)="onBookFlight()"
             >
               Book
