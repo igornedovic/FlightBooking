@@ -18,6 +18,7 @@ namespace FlightBookingBackend.Data
         public DbSet<User> Users { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Flight> Flights { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,6 +44,14 @@ namespace FlightBookingBackend.Data
                 .HasForeignKey(f => f.FlyingFromId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Flight>().HasOne(f => f.FlyingTo).WithMany()
                 .HasForeignKey(f => f.FlyingToId).OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Reservation>().Property(r => r.NumberOfSeats).IsRequired();
+            modelBuilder.Entity<Reservation>().Property(r => r.Status)
+                .HasConversion(r => r.ToString(), t => (ReservationStatus)Enum.Parse(typeof(ReservationStatus), t));
+            modelBuilder.Entity<Reservation>().HasOne(r => r.User).WithMany()
+                .HasForeignKey(r => r.UserId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Reservation>().HasOne(r => r.Flight).WithMany()
+                .HasForeignKey(r => r.FlightId).OnDelete(DeleteBehavior.Restrict);
         }
 
     }
