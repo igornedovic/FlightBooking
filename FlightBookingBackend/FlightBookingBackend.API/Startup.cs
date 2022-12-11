@@ -58,6 +58,7 @@ namespace FlightBookingBackend.API
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<IFlightService, FlightService>();
+            services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddCors();

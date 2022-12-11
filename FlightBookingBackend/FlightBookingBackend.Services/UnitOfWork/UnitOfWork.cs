@@ -18,10 +18,12 @@ namespace FlightBookingBackend.Services.UnitOfWork
             UserRepository = new UserRepository(_context);
             CityRepository = new CityRepository(_context);
             FlightRepository = new FlightRepository(_context);
+            ReservationRepository = new ReservationRepository(_context);
         }
         public IUserRepository UserRepository { get; set; }
         public ICityRepository CityRepository { get; set; }
         public IFlightRepository FlightRepository { get; set; }
+        public IReservationRepository ReservationRepository { get; set; }
 
         public async Task<bool> CommitAsync()
         {

@@ -34,7 +34,9 @@ namespace FlightBookingBackend.Services.Repositories
 
         public async Task<Flight> GetFlightByIdAsync(int id)
         {
-            return await _context.Flights.SingleOrDefaultAsync(f => f.FlightId == id);
+            return await _context.Flights.Include(f => f.FlyingFrom)
+                                         .Include(f => f.FlyingTo)
+                                         .SingleOrDefaultAsync(f => f.FlightId == id);
         }
 
         public void AddFlight(Flight flight)

@@ -31,6 +31,11 @@ namespace FlightBookingBackend.Services.Repositories
             _context.Add(user);
         }
 
+        public async Task<User> GetUserByIdAsync(int id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+        }
+
         public async Task<User> GetUserByUsernameAsync(string username)
         {
             return await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
