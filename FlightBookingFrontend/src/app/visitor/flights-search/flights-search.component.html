@@ -51,9 +51,7 @@
     </div>
   </form>
 
-  <ng-container
-    *ngIf="!isLoading && searchedFlights && searchedFlights.length > 0"
-  >
+  <div class="my-3" *ngIf="!isLoading">
     <button
       type="button"
       class="btn btn-secondary"
@@ -61,7 +59,7 @@
       [attr.aria-expanded]="!isCollapsed"
       aria-controls="collapseBasic"
     >
-      Filter
+      Show filter
     </button>
     <hr />
     <div
@@ -73,11 +71,13 @@
       <div class="well well-lg card card-block card-header">
         <div class="d-flex align-items-baseline">
           <input #layoverCheckbox type="checkbox" id="layover" name="layover" [value]="0" (change)="onLayoverChange(layoverCheckbox)"/>
-          <label for="layover" class="ml-2"> Without layover</label>
+          <label for="layover" class="ml-2">Only without layover</label>
         </div>
       </div>
     </div>
+  </div>
 
+  <div class="my-3" *ngIf="!isLoading && searchedFlights && searchedFlights.length > 0">
     <app-flights [flights]="searchedFlights"></app-flights>
-  </ng-container>
+  </div>
 </div>

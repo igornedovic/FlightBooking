@@ -1,6 +1,4 @@
-import { HttpParams } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { City } from 'src/app/models/city.model';
 import { Flight } from 'src/app/models/flight.model';
 import { FlightQueryParams } from 'src/app/models/flightQueryParams.model';
@@ -12,7 +10,7 @@ import { FlightService } from 'src/app/services/flight.service';
   templateUrl: './flights-search.component.html',
   styleUrls: ['./flights-search.component.css'],
 })
-export class FlightsSearchComponent implements OnInit, OnDestroy {
+export class FlightsSearchComponent implements OnInit {
   cities: City[];
   flyingFromCities: City[];
   flyingToCities: City[];
@@ -21,6 +19,7 @@ export class FlightsSearchComponent implements OnInit, OnDestroy {
 
   isLoading = false;
   isCollapsed = false;
+  isFirst = true;
 
   constructor(
     private flightService: FlightService,
@@ -41,9 +40,18 @@ export class FlightsSearchComponent implements OnInit, OnDestroy {
   onLocationChange(event: HTMLInputElement) {
     if (event.id === 'ff') {
       this.flyingToCities = this.cities.filter((c) => c.name !== event.value);
+
+      if (this.isFirst) {
+        this.flightQueryParams.flyingTo = '';
+        this.isFirst = !this.isFirst;
+      }
     } else {
-      this.flyingFromCities = this.cities.filter(
-        (c) => c.name !== event.value);
+      this.flyingFromCities = this.cities.filter((c) => c.name !== event.value);
+
+      if (this.isFirst) {
+        this.flightQueryParams.flyingFrom = '';
+        this.isFirst = !this.isFirst;
+      }
     }
   }
 
@@ -52,21 +60,20 @@ export class FlightsSearchComponent implements OnInit, OnDestroy {
       this.flightQueryParams.layoverNumber = +event.value;
       this.onSearchFlights();
     } else {
+      this.flightQueryParams.layoverNumber = null;
       this.onSearchFlights();
     }
   }
 
   onSearchFlights() {
-    this.flightService.getFlights(this.flightQueryParams).subscribe(flights => {
-      console.log(flights);
-      this.searchedFlights = flights;
-      this.isLoading = false;
-    })
-  }
-
-  ngOnDestroy() {
-    // if (this.flightSub) {
-    //   this.flightSub.unsubscribe();
-    // }
+    this.flightService
+      .getFlights(this.flightQueryParams)
+      .subscribe((flights) => {
+        this.searchedFlights = flights;
+        this.isLoading = false;
+      }, error => {
+        this.searchedFlights = null;
+      });
+  
   }
 }

@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginSub = this.authService.login(this.loginForm.get('username').value, this.loginForm.get('password').value).subscribe(response => {
       for (let i = 0; i < environment.roles.length; i++) {
         if (response.role === environment.roles[i]) {
-          console.log('/'+ environment.roles[i].toLowerCase());
           this.router.navigateByUrl('/'+ environment.roles[i].toLowerCase());
         }
       }
