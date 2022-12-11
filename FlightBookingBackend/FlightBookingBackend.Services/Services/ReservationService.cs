@@ -6,6 +6,7 @@ using AutoMapper;
 using FlightBookingBackend.Data.DTOs;
 using FlightBookingBackend.Data.Interfaces;
 using FlightBookingBackend.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlightBookingBackend.Services.Services
 {
@@ -19,6 +20,14 @@ namespace FlightBookingBackend.Services.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
+        public async Task<List<ReservationReadDto>> GetReservationsAsync()
+        {
+            var query = _unitOfWork.ReservationRepository.GetReservations();
+
+            return await _mapper.ProjectTo<ReservationReadDto>(query).ToListAsync();
+        }
+
         public async Task<ReservationReadDto> AddReservationAsync(ReservationCreateDto reservationCreateDto)
         {
             var reservation = _mapper.Map<Reservation>(reservationCreateDto);

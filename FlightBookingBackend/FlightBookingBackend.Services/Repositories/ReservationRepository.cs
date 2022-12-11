@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FlightBookingBackend.Data;
 using FlightBookingBackend.Data.Interfaces;
 using FlightBookingBackend.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlightBookingBackend.Services.Repositories
 {
@@ -15,6 +16,22 @@ namespace FlightBookingBackend.Services.Repositories
         {
             _context = context;           
         }
+
+        public IQueryable<Reservation> GetReservations()
+        {
+            return _context.Reservations.Include(r => r.User)
+                                        .Include(r => r.Flight)
+                                        .ThenInclude(f => f.FlyingFrom)
+                                        .Include(r => r.Flight)
+                                        .ThenInclude(f => f.FlyingTo);
+                                                         
+        }
+
+        public IQueryable<Reservation> GetReservationsByUser(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void AddReservation(Reservation reservation)
         {
             _context.Add(reservation);

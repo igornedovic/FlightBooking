@@ -18,6 +18,17 @@ namespace FlightBookingBackend.API.Controllers
             _reservationService = reservationService;
         }
 
+        // GET api/reservations
+        public async Task<ActionResult<List<ReservationReadDto>>> GetReservations()
+        {
+            var reservations = await _reservationService.GetReservationsAsync();
+
+            if (reservations == null || reservations.Count == 0) 
+                return NotFound("No existing reservations found!");
+
+            return Ok(reservations);
+        }
+
         // POST api/reservations
         [HttpPost]
         public async Task<ActionResult<ReservationReadDto>> AddReservation(

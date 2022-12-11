@@ -8,6 +8,7 @@ namespace FlightBookingBackend.Data.Interfaces
 {
     public interface IReservationService
     {
+        public Task<List<ReservationReadDto>> GetReservationsAsync();
         public Task<ReservationReadDto> AddReservationAsync(ReservationCreateDto reservationCreateDto);
     }
 }
