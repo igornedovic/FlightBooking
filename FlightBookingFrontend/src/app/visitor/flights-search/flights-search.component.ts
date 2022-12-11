@@ -13,7 +13,6 @@ import { FlightService } from 'src/app/services/flight.service';
   styleUrls: ['./flights-search.component.css'],
 })
 export class FlightsSearchComponent implements OnInit, OnDestroy {
-  // private flightSub: Subscription;
   cities: City[];
   flyingFromCities: City[];
   flyingToCities: City[];
@@ -21,6 +20,7 @@ export class FlightsSearchComponent implements OnInit, OnDestroy {
   searchedFlights: Flight[];
 
   isLoading = false;
+  isCollapsed = false;
 
   constructor(
     private flightService: FlightService,
@@ -38,7 +38,7 @@ export class FlightsSearchComponent implements OnInit, OnDestroy {
     });
   }
 
-  onChange(event: HTMLInputElement) {
+  onLocationChange(event: HTMLInputElement) {
     if (event.id === 'ff') {
       this.flyingToCities = this.cities.filter((c) => c.name !== event.value);
     } else {
@@ -47,8 +47,18 @@ export class FlightsSearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  onLayoverChange(event: HTMLInputElement) {
+    if (event.checked) {
+      this.flightQueryParams.layoverNumber = +event.value;
+      this.onSearchFlights();
+    } else {
+      this.onSearchFlights();
+    }
+  }
+
   onSearchFlights() {
     this.flightService.getFlights(this.flightQueryParams).subscribe(flights => {
+      console.log(flights);
       this.searchedFlights = flights;
       this.isLoading = false;
     })

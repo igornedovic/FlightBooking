@@ -56,12 +56,10 @@ export class FlightService {
       queryParams = queryParams.append('flyingFrom', flightQueryParams.flyingFrom);
       queryParams = queryParams.append('flyingTo', flightQueryParams.flyingTo);
 
-      if (flightQueryParams.layoverNumber) {
+      if (flightQueryParams.layoverNumber === 0) {
         queryParams = queryParams.append('layoverNumber', flightQueryParams.layoverNumber);
       }
     }
-
-    console.log(queryParams);
 
     return this.http.get<Flight[]>(this.apiUrl + 'flights', {params: queryParams}).pipe(
       map((response) => {

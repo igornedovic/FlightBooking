@@ -1,7 +1,7 @@
 <div class="container mt-4 p-4">
   <form
     #searchForm="ngForm"
-    class="form-inline mt-5"
+    class="form-inline mt-5 mb-4"
     (ngSubmit)="onSearchFlights()"
   >
     <div class="col-4 d-flex justify-content-center">
@@ -13,7 +13,7 @@
           class="form-select form-control ml-1"
           [(ngModel)]="flightQueryParams.flyingFrom"
           name="flyingFrom"
-          (change)="onChange(flyingFrom)"
+          (change)="onLocationChange(flyingFrom)"
           required
         >
           <option *ngFor="let city of flyingFromCities" [value]="city.name">
@@ -31,7 +31,7 @@
           class="form-select form-control ml-1"
           [(ngModel)]="flightQueryParams.flyingTo"
           name="flyingTo"
-          (change)="onChange(flyingTo)"
+          (change)="onLocationChange(flyingTo)"
           required
         >
           <option *ngFor="let city of flyingToCities" [value]="city.name">
@@ -41,13 +41,43 @@
       </div>
     </div>
     <div class="col-4 d-flex justify-content-center">
-      <button type="submit" class="btn btn-secondary" [disabled]="searchForm.invalid">Search</button>
+      <button
+        type="submit"
+        class="btn btn-secondary"
+        [disabled]="searchForm.invalid"
+      >
+        Search
+      </button>
     </div>
   </form>
 
-  <br /><br />
+  <ng-container
+    *ngIf="!isLoading && searchedFlights && searchedFlights.length > 0"
+  >
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="isCollapsed = !isCollapsed"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseBasic"
+    >
+      Filter
+    </button>
+    <hr />
+    <div
+      id="collapseBasic"
+      class="mb-4"
+      [collapse]="!isCollapsed"
+      [isAnimated]="true"
+    >
+      <div class="well well-lg card card-block card-header">
+        <div class="d-flex align-items-baseline">
+          <input #layoverCheckbox type="checkbox" id="layover" name="layover" [value]="0" (change)="onLayoverChange(layoverCheckbox)"/>
+          <label for="layover" class="ml-2"> Without layover</label>
+        </div>
+      </div>
+    </div>
 
-  <ng-container *ngIf="!isLoading && searchedFlights && searchedFlights.length > 0">
     <app-flights [flights]="searchedFlights"></app-flights>
   </ng-container>
 </div>

@@ -25,6 +25,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AdminFlightsComponent } from './admin/admin-flights/admin-flights.component';
 import { FlightsSearchComponent } from './visitor/flights-search/flights-search.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent, NewFlightModalComponent, AdminFlightsComponent, FlightsSearchComponent],
@@ -40,7 +41,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     HttpClientModule,
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    CollapseModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
