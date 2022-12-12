@@ -1,5 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Reservation } from 'src/app/models/reservation.model';
+
+import { Reservation, ReservationStatus } from 'src/app/models/reservation.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-reservation',
@@ -8,9 +10,14 @@ import { Reservation } from 'src/app/models/reservation.model';
 })
 export class ReservationComponent implements OnInit {
   @Input() reservation: Reservation;
+  public reservationStatus = Object.values(ReservationStatus);
 
-  constructor() { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit() {
+  }
+
+  onChangeStatus(selectedStatus: HTMLInputElement) {
+    console.log(selectedStatus.value);
   }
 }

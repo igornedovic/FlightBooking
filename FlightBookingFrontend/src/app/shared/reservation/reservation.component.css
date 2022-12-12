@@ -1,0 +1,9 @@
+input[type=checkbox] {
+    transform: scale(1.5);
+}
+
+.form-control-inline {
+    min-width: 0;
+    width: auto;
+    display: inline;
+}
