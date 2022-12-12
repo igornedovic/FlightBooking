@@ -14,7 +14,7 @@ namespace FlightBookingBackend.Services.Repositories
         private readonly FlightBookingDbContext _context;
         public ReservationRepository(FlightBookingDbContext context)
         {
-            _context = context;           
+            _context = context;
         }
 
         public IQueryable<Reservation> GetReservations()
@@ -24,12 +24,17 @@ namespace FlightBookingBackend.Services.Repositories
                                         .ThenInclude(f => f.FlyingFrom)
                                         .Include(r => r.Flight)
                                         .ThenInclude(f => f.FlyingTo);
-                                                         
+
         }
 
         public IQueryable<Reservation> GetReservationsByUser(int userId)
         {
-            throw new NotImplementedException();
+            return _context.Reservations.Include(r => r.User)
+                            .Include(r => r.Flight)
+                            .ThenInclude(f => f.FlyingFrom)
+                            .Include(r => r.Flight)
+                            .ThenInclude(f => f.FlyingTo)
+                            .Where(r => r.UserId == userId);
         }
 
         public void AddReservation(Reservation reservation)

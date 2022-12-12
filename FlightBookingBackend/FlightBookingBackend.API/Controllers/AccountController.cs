@@ -15,14 +15,16 @@ namespace FlightBookingBackend.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
-        public AccountController(IUserService userService)
+        private readonly IReservationService _reservationService;
+        public AccountController(IUserService userService, IReservationService reservationService)
         {
             _userService = userService;
+            _reservationService = reservationService;
         }
 
         // POST api/account/register
         [HttpPost("register")]
-        [Authorize(Roles = Roles.Administrator)] 
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<ActionResult<UserReadDto>> Register(UserCreateDto userCreateDto)
         {
             if (await _userService.CheckUsernameAsync(userCreateDto.Username))
@@ -63,6 +65,18 @@ namespace FlightBookingBackend.API.Controllers
             if (users == null || users.Count == 0) return NotFound("No existing users found!");
 
             return Ok(users);
+        }
+
+        // GET api/account/users/{userId}/reservations
+        [HttpGet("users/{userId}/reservations")]
+        public async Task<ActionResult<List<ReservationReadDto>>> GetReservationsByUser(int userId)
+        {
+            var reservations = await _reservationService.GetReservationsByUserAsync(userId);
+
+            if (reservations == null || reservations.Count == 0)
+                return NotFound("No existing reservations found for a given user!");
+
+            return Ok(reservations);
         }
 
     }

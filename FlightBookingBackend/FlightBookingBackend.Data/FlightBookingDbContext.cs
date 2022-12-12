@@ -22,8 +22,8 @@ namespace FlightBookingBackend.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // optionsBuilder.LogTo(Console.WriteLine);
-            // optionsBuilder.EnableSensitiveDataLogging(true);
+            optionsBuilder.LogTo(Console.WriteLine);
+            optionsBuilder.EnableSensitiveDataLogging(true);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

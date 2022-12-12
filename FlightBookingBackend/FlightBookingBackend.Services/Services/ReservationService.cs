@@ -28,6 +28,13 @@ namespace FlightBookingBackend.Services.Services
             return await _mapper.ProjectTo<ReservationReadDto>(query).ToListAsync();
         }
 
+        public async Task<List<ReservationReadDto>> GetReservationsByUserAsync(int userId)
+        {
+            var query = _unitOfWork.ReservationRepository.GetReservationsByUser(userId);
+
+            return await _mapper.ProjectTo<ReservationReadDto>(query).ToListAsync();
+        }
+
         public async Task<ReservationReadDto> AddReservationAsync(ReservationCreateDto reservationCreateDto)
         {
             var reservation = _mapper.Map<Reservation>(reservationCreateDto);
@@ -52,5 +59,7 @@ namespace FlightBookingBackend.Services.Services
 
             return null;
         }
+
+
     }
 }
