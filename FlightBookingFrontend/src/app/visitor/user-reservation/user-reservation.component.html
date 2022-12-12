@@ -1,7 +1,7 @@
 <div class="container-fluid mt-4 pt-4">
-    <div class="row">
-        <div class="col-lg-4">
-            <app-reservation></app-reservation>
+    <div class="row mt-3">
+        <div class="col-lg-4 d-flex justify-content-center" *ngFor="let reservation of userReservations">
+            <app-reservation [reservation]="reservation"></app-reservation>
         </div>
     </div>
 </div>
