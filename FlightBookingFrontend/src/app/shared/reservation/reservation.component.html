@@ -2,35 +2,34 @@
   <div class="card-body">
       <div class="row">
         <div class="col d-flex justify-content-center">
-          <h5 class="card-title">{{reservation.firstName}} {{reservation.lastName}}</h5>
+          <h5 class="card-title">Full name: {{reservation.firstName}} {{reservation.lastName}}</h5>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4 d-flex justify-content-center align-items-center">
           <p class="card-title">{{reservation.flyingFromName}}</p>
         </div>
-        <div class="col-md-4">
-          <p class="card-title">Ikonica</p>
+        <div class="col-md-4 d-flex justify-content-center align-items-center">
+          <p class="card-title"><i class="fa fa-arrow-right fa-2x"></i></p>
         </div>
-        <div class="col-md-4">
-          <label>Flying to:</label>
+        <div class="col-md-4 d-flex justify-content-center align-items-center">
           <p >{{reservation.flyingToName}}</p>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-            <p class="card-title">Departure date: {{reservation.date}}</p>
+          <p class="card-text">Departure date:<br>{{reservation.date | date : "MM/dd/yyyy"}}</p>
         </div>
         <div class="col-md-4">
-            <p class="card-title">Flight status: {{reservation.flightStatus}}</p>
+          <p class="card-text pl-3">Flight status: {{reservation.flightStatus}}</p>
         </div>
         <div class="col-md-4">
-            <p class="card-title">Reserved number of seats: {{reservation.numberOfSeats}}</p>
+          <p class="card-text">Number of seats: {{reservation.numberOfSeats}}</p>
         </div>
       </div>
       <div class="row">
-        <div class="col">
-            <p>Reservation status: <strong>{{reservation.status}}</strong></p>
+        <div class="col mt-3">
+            <p class="card-text">Reservation status: <strong>{{reservation.status}}</strong></p>
         </div>
       </div>
   </div>
