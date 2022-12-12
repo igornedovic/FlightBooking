@@ -5,7 +5,7 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { FlightStatus } from '../models/flight.model';
-import { Reservation } from '../models/reservation.model';
+import { Reservation, ReservationInterface } from '../models/reservation.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -19,6 +19,36 @@ export class ReservationService {
 
   get reservations() {
     return this._reservation.asObservable();
+  }
+
+  addNewReservation(reservationForm: ReservationInterface) {
+    let newReservation: Reservation;
+
+    return this.http
+      .post(this.apiUrl + 'reservations', reservationForm)
+      .pipe(
+        take(1),
+        switchMap((response: Reservation) => {
+          newReservation = new Reservation(
+            response.reservationId,
+            response.firstName,
+            response.lastName,
+            response.flyingFromName,
+            response.flyingToName,
+            response.date,
+            response.flightStatus,
+            response.numberOfSeats,
+            response.status
+          )
+
+          return this.reservations;
+        }),
+        take(1),
+        tap(reservations => {
+          const newReservations = reservations.concat(newReservation);
+          this._reservation.next(newReservations);
+        })
+      )
   }
 
   getAllReservations() {
@@ -35,7 +65,7 @@ export class ReservationService {
               r.flyingFromName,
               r.flyingToName,
               r.date,
-              FlightStatus.Active,
+              r.flightStatus,
               r.numberOfSeats,
               r.status
             )
@@ -51,6 +81,7 @@ export class ReservationService {
   }
 
   getReservationsByUser() {
+    this._reservation.next(null);
     let fetchedUserId: number;
 
     return this.authService.userId.pipe(

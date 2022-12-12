@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Reservation } from 'src/app/models/reservation.model';
 
 @Component({
@@ -11,7 +11,6 @@ export class ReservationComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
-
 }

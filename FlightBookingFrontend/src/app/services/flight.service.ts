@@ -21,7 +21,7 @@ export class FlightService {
   }
 
   addNewFlight(flightForm: FlightInterface) {
-    let newFlight;
+    let newFlight: Flight;
 
     return this.http
       .post(this.apiUrl + 'flights', flightForm)
