@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Reservation } from 'src/app/models/reservation.model';
 
 @Component({
   selector: 'app-reservation',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reservation.component.css']
 })
 export class ReservationComponent implements OnInit {
+  @Input() reservation: Reservation;
 
   constructor() { }
 

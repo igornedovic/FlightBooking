@@ -1,1 +1,34 @@
-<p style="margin-top: 200px;">reservations works!</p>
+<div class="container-fluid mt-4 pt-4">
+    <div class="row" *ngIf="reservationsPending.length> 0">
+        <div class="col mt-4">
+            <h2 style="color: orange;">Pending</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 d-flex justify-content-center" *ngFor="let reservation of reservationsPending">
+            <app-reservation [reservation]="reservation"></app-reservation>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="reservationsAccepted.length > 0">
+        <div class="col mt-3">
+            <h2 style="color: green;">Accepted</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 d-flex justify-content-center" *ngFor="let reservation of reservationsAccepted">
+            <app-reservation [reservation]="reservation"></app-reservation>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="reservationsRejected.length > 0">
+        <div class="col mt-3">
+            <h2 style="color: red;">Rejected</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 d-flex justify-content-center" *ngFor="let reservation of reservationsRejected">
+            <app-reservation [reservation]="reservation"></app-reservation>
+        </div>
+    </div>
+</div>

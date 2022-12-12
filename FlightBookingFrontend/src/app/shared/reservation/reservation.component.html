@@ -1,36 +1,36 @@
-<div class="card mt-5 mb-3 ml-3" style="max-width: 540px">
+<div class="card my-3" style="max-width: 540px">
   <div class="card-body">
       <div class="row">
         <div class="col d-flex justify-content-center">
-          <h5 class="card-title">Ime i prezime</h5>
+          <h5 class="card-title">{{reservation.firstName}} {{reservation.lastName}}</h5>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4 d-flex justify-content-center align-items-center">
-          <p class="card-title">Flying from</p>
+          <p class="card-title">{{reservation.flyingFromName}}</p>
         </div>
         <div class="col-md-4">
           <p class="card-title">Ikonica</p>
         </div>
         <div class="col-md-4">
-          <label>Flying to</label>
-          <p >name</p>
+          <label>Flying to:</label>
+          <p >{{reservation.flyingToName}}</p>
         </div>
       </div>
       <div class="row">
         <div class="col-md-4">
-            <p class="card-title">Departure date</p>
+            <p class="card-title">Departure date: {{reservation.date}}</p>
         </div>
         <div class="col-md-4">
-            <p class="card-title">Flight status</p>
+            <p class="card-title">Flight status: {{reservation.flightStatus}}</p>
         </div>
         <div class="col-md-4">
-            <p class="card-title">Reserved number of seats</p>
+            <p class="card-title">Reserved number of seats: {{reservation.numberOfSeats}}</p>
         </div>
       </div>
       <div class="row">
         <div class="col">
-            <p>Reservation status: <strong>STATUS</strong></p>
+            <p>Reservation status: <strong>{{reservation.status}}</strong></p>
         </div>
       </div>
   </div>
