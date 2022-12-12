@@ -29,9 +29,10 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ReservationComponent } from './shared/reservation/reservation.component';
 import { ReservationsComponent } from './agent/reservations/reservations.component';
 import { UserReservationComponent } from './visitor/user-reservation/user-reservation.component';
+import { FlightBookingModalComponent } from './shared/flights/flight-booking-modal/flight-booking-modal.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent, NewFlightModalComponent, AdminFlightsComponent, FlightsSearchComponent, ReservationComponent, ReservationsComponent, UserReservationComponent],
+  declarations: [AppComponent, LoginComponent, NavComponent, ManageUsersComponent, NewUserComponent, ViewUserComponent, AdminComponent, AgentComponent, VisitorComponent, FlightsComponent, NewFlightComponent, NewFlightModalComponent, AdminFlightsComponent, FlightsSearchComponent, ReservationComponent, ReservationsComponent, UserReservationComponent, FlightBookingModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

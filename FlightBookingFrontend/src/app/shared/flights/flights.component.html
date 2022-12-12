@@ -74,7 +74,7 @@
               type="button"
               class="btn btn-primary mx-4"
               [disabled]="currentDatePlusThree > flight.date || flight.status === statusCancelled"
-              (click)="onBookFlight()"
+              (click)="onBookFlight(flight)"
             >
               Book
             </button>

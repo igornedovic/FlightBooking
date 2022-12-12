@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{ title }}</h4>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="bsModalRef.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="newReservationForm" (ngSubmit)="onBookFlight()">
+      <div class="container">
+        <div class="row mt-3 mb-3">
+          <div class="col-6">
+            <p class="lead">First name: {{user.firstName}}</p>
+          </div>
+          <div class="col-6">
+            <p class="lead">Last name: {{user.lastName}}</p>
+          </div>
+        </div>
+        <div class="row mt-3 mb-3">
+          <div class="col-6">
+            <p class="lead">Flying from: {{flight.flyingFromName}}</p>
+          </div>
+          <div class="col-6">
+            <p class="lead">Flying to: {{flight.flyingToName}}</p>
+          </div>
+        </div>
+        <div class="row mt-3 mb-3">
+          <div class="col-6">
+            <p class="lead">Departure date: {{flight.date | date : "MM/dd/yyyy"}}</p>
+          </div>
+          <div class="col-6">
+            <input
+              type="number"
+              formControlName="numberOfSeats"
+              class="form-control"
+              placeholder="Enter number of seats to book"
+              [min]="1"
+              [max]="flight.numberOfSeats"
+              required
+            />
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col text-right">
+            <button
+              type="submit"
+              class="btn btn-secondary btn-block mt-3 mb-3"
+              [disabled]="newReservationForm.invalid"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  

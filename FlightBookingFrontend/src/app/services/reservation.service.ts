@@ -75,7 +75,7 @@ export class ReservationService {
               r.flyingFromName,
               r.flyingToName,
               r.date,
-              FlightStatus.Active,
+              r.flightStatus,
               r.numberOfSeats,
               r.status
             )
