@@ -41,7 +41,9 @@ namespace FlightBookingBackend.Data.Helpers
                 .ForMember(dest => dest.FlyingToName, opt => opt.MapFrom(src =>
                     src.Flight.FlyingTo.Name))
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src =>
-                    src.Flight.Date));
+                    src.Flight.Date))
+                .ForMember(dest => dest.FlightStatus, opt => opt.MapFrom(src =>
+                    src.Flight.Status));
         }
     }
 }

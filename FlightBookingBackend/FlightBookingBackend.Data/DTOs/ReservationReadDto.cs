@@ -11,10 +11,6 @@ namespace FlightBookingBackend.Data.DTOs
         [Required]
         public int ReservationId { get; set; }
         [Required]
-        public int NumberOfSeats { get; set; }
-        [Required]
-        public string Status { get; set; }
-        [Required]
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
@@ -24,5 +20,12 @@ namespace FlightBookingBackend.Data.DTOs
         public string FlyingToName { get; set; }
         [Required]
         public DateTime Date { get; set; }
+        [Required]
+        public string FlightStatus { get; set; }
+        [Required]
+        public int NumberOfSeats { get; set; }
+        [Required]
+        public string Status { get; set; }
+
     }
 }

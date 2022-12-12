@@ -11,7 +11,7 @@ namespace FlightBookingBackend.Data.DTOs
         [Required]
         public int NumberOfSeats { get; set; }
         [Required]
-        public string Status { get; set; }
+        public string Status { get; set; } = "Pending";
         [Required]
         public int UserId { get; set; }
         [Required]
