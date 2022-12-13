@@ -10,6 +10,8 @@ namespace FlightBookingBackend.Data.Interfaces
     {
         public IQueryable<Reservation> GetReservations();
         public IQueryable<Reservation> GetReservationsByUser(int userId);
+        public Task<Reservation> GetReservationByIdAsync(int id);
         public void AddReservation(Reservation reservation);
+        public void ChangeReservationStatus(Reservation reservationToChange);
     }
 }

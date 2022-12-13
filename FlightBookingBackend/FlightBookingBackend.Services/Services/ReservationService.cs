@@ -60,6 +60,25 @@ namespace FlightBookingBackend.Services.Services
             return null;
         }
 
+        public async Task<bool> ChangeReservationStatusAsync(int id, string newStatus)
+        {
+            var reservationToChange = await _unitOfWork.ReservationRepository.GetReservationByIdAsync(id);
 
+            if (reservationToChange == null)
+            {
+                return false;
+            }
+
+            reservationToChange.Status = (ReservationStatus)Enum.Parse(typeof(ReservationStatus), newStatus);
+
+            _unitOfWork.ReservationRepository.ChangeReservationStatus(reservationToChange);
+
+            if (await _unitOfWork.CommitAsync())
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

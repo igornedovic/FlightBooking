@@ -98,7 +98,6 @@ export class FlightService {
       map(flights => {
         const cancelledFlightIndex = flights.findIndex(f => f.flightId == id);
         flights[cancelledFlightIndex].status = status;
-        console.log(flights);
         this._flights.next(flights);
         return responseText;
       })

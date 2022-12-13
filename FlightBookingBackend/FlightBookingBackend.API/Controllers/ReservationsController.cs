@@ -41,5 +41,14 @@ namespace FlightBookingBackend.API.Controllers
             return Ok(newReservation);
         }
 
+        // PUT api/reservations/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateStatus(int id, NewStatusDto newStatusDto)
+        {
+            if (await _reservationService.ChangeReservationStatusAsync(id, newStatusDto.NewStatus))
+                return Ok("Successfully changed reservation status!");
+            
+            return BadRequest("Failed to change reservation status!");
+        }
     }
 }

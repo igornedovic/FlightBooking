@@ -37,9 +37,19 @@ namespace FlightBookingBackend.Services.Repositories
                             .Where(r => r.UserId == userId);
         }
 
+        public async Task<Reservation> GetReservationByIdAsync(int id)
+        {
+            return await _context.Reservations.FirstOrDefaultAsync(r => r.ReservationId == id);
+        }
+
         public void AddReservation(Reservation reservation)
         {
             _context.Add(reservation);
+        }
+
+        public void ChangeReservationStatus(Reservation reservationToChange)
+        {
+            _context.Update(reservationToChange);
         }
     }
 }

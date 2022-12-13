@@ -1,54 +1,56 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { FlightStatus } from '../models/flight.model';
-import { Reservation, ReservationInterface } from '../models/reservation.model';
+import {
+  Reservation,
+  ReservationInterface,
+  ReservationStatus,
+} from '../models/reservation.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReservationService {
   apiUrl = environment.apiUrl;
-  private _reservation = new BehaviorSubject<Reservation[]>([]);
+  private _reservations = new BehaviorSubject<Reservation[]>([]);
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   get reservations() {
-    return this._reservation.asObservable();
+    return this._reservations.asObservable();
   }
 
   addNewReservation(reservationForm: ReservationInterface) {
     let newReservation: Reservation;
 
-    return this.http
-      .post(this.apiUrl + 'reservations', reservationForm)
-      .pipe(
-        take(1),
-        switchMap((response: Reservation) => {
-          newReservation = new Reservation(
-            response.reservationId,
-            response.firstName,
-            response.lastName,
-            response.flyingFromName,
-            response.flyingToName,
-            response.date,
-            response.flightStatus,
-            response.numberOfSeats,
-            response.status
-          )
+    return this.http.post(this.apiUrl + 'reservations', reservationForm).pipe(
+      take(1),
+      switchMap((response: Reservation) => {
+        newReservation = new Reservation(
+          response.reservationId,
+          response.firstName,
+          response.lastName,
+          response.flyingFromName,
+          response.flyingToName,
+          response.date,
+          response.flightStatus,
+          response.numberOfSeats,
+          response.status
+        );
 
-          return this.reservations;
-        }),
-        take(1),
-        tap(reservations => {
-          const newReservations = reservations.concat(newReservation);
-          this._reservation.next(newReservations);
-        })
-      )
+        return this.reservations;
+      }),
+      take(1),
+      tap((reservations) => {
+        const newReservations = reservations.concat(newReservation);
+        this._reservations.next(newReservations);
+      })
+    );
   }
 
   getAllReservations() {
@@ -74,19 +76,19 @@ export class ReservationService {
 
         return reservations;
       }),
-      tap(reservations => {
-        this._reservation.next(reservations);
+      tap((reservations) => {
+        this._reservations.next(reservations);
       })
     );
   }
 
   getReservationsByUser() {
-    this._reservation.next(null);
+    this._reservations.next(null);
     let fetchedUserId: number;
 
     return this.authService.userId.pipe(
       take(1),
-      tap(userId => {
+      tap((userId) => {
         fetchedUserId = userId;
       }),
       switchMap(() => {
@@ -115,9 +117,36 @@ export class ReservationService {
 
         return reservations;
       }),
-      tap(reservations => {
-        this._reservation.next(reservations);
+      tap((reservations) => {
+        this._reservations.next(reservations);
       })
-    )
+    );
+  }
+
+  changeReservationStatus(id: number, status: string) {
+    const newStatusAsEnum = status as ReservationStatus;
+    let responseText: string;
+
+    return this.http
+      .put(
+        this.apiUrl + `reservations/${id}`,
+        { newStatus: status},
+        { responseType: 'text' }
+      )
+      .pipe(
+        switchMap((response) => {
+          responseText = response;
+          return this.reservations;
+        }),
+        take(1),
+        map((reservations) => {
+          const changedReservationIndex = reservations.findIndex(
+            (r) => r.reservationId == id
+          );
+          reservations[changedReservationIndex].status = newStatusAsEnum;
+          this._reservations.next(reservations);
+          return responseText;
+        })
+      );
   }
 }
