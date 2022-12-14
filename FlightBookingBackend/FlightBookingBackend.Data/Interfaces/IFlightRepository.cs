@@ -14,5 +14,6 @@ namespace FlightBookingBackend.Data.Interfaces
         public Task<Flight> GetFlightByIdAsync(int id);
         public void AddFlight(Flight flight);
         public void ChangeFlightStatusToCancel(Flight flightToCancel);
+        public void UpdateFlightTotalNumberOfSeats(Flight flightToUpdate);
     }
 }

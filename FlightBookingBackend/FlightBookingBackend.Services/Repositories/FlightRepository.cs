@@ -49,5 +49,10 @@ namespace FlightBookingBackend.Services.Repositories
         {
             _context.Update(flightToCancel);
         }
+
+        public void UpdateFlightTotalNumberOfSeats(Flight flightToUpdate)
+        {
+            _context.Update(flightToUpdate);
+        }
     }
 }

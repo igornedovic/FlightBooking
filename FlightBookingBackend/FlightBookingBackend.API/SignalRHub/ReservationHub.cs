@@ -54,12 +54,12 @@ namespace FlightBookingBackend.API.SignalRHub
             await Clients.Group(GetAgentsGroupName()).SendAsync("NewReservation", newReservation);
         }
 
-        public async Task UpdateReservationStatus(int id, string status, string firstName, string lastName)
+        public async Task UpdateReservationStatus(int id, string status, string firstName, string lastName, int flightId, int numberOfSeats)
         {
-            System.Console.WriteLine($"{id} {status} {firstName} {lastName}");
+            System.Console.WriteLine($"{id} {status} {firstName} {lastName} {flightId} {numberOfSeats}");
 
             var newStatus = await _reservationService
-                            .ChangeReservationStatusAsync(id, status);
+                            .ChangeReservationStatusAsync(id, status, flightId, numberOfSeats);
 
             if (newStatus == null)
                 throw new HubException("Failed to change reservation status!");

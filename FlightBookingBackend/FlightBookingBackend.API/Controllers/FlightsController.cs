@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlightBookingBackend.Data.DTOs;
 using FlightBookingBackend.Data.Interfaces;
+using FlightBookingBackend.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightBookingBackend.API.Controllers
@@ -31,6 +33,7 @@ namespace FlightBookingBackend.API.Controllers
 
         // POST api/flights
         [HttpPost]
+        [Authorize(Roles = Roles.Agent)]
         public async Task<ActionResult<FlightReadDto>> AddFlight(FlightCreateDto flightCreateDto)
         {
             var newFlight = await _flightService.AddFlightAsync(flightCreateDto);
@@ -42,6 +45,7 @@ namespace FlightBookingBackend.API.Controllers
 
         // PUT api/flights/{id}/cancel
         [HttpPut("{id}/cancel")]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<ActionResult> UpdateStatus(int id)
         {
             if (await _flightService.ChangeFlightStatusToCancelAsync(id))

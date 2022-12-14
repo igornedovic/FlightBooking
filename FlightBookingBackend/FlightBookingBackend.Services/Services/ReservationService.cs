@@ -60,7 +60,7 @@ namespace FlightBookingBackend.Services.Services
             return null;
         }
 
-        public async Task<string> ChangeReservationStatusAsync(int id, string newStatus)
+        public async Task<string> ChangeReservationStatusAsync(int id, string newStatus, int flightId, int numberOfSeats)
         {
             var reservationToChange = await _unitOfWork.ReservationRepository.GetReservationByIdAsync(id);
 
@@ -72,6 +72,17 @@ namespace FlightBookingBackend.Services.Services
             reservationToChange.Status = (ReservationStatus)Enum.Parse(typeof(ReservationStatus), newStatus);
 
             _unitOfWork.ReservationRepository.ChangeReservationStatus(reservationToChange);
+
+            var matchingFlight = await _unitOfWork.FlightRepository.GetFlightByIdAsync(flightId);
+
+            if (matchingFlight.NumberOfSeats > numberOfSeats
+                        && reservationToChange.Status == ReservationStatus.Accepted) 
+            {
+                matchingFlight.NumberOfSeats = matchingFlight.NumberOfSeats - numberOfSeats;
+
+                _unitOfWork.FlightRepository.UpdateFlightTotalNumberOfSeats(matchingFlight);
+            }
+
 
             if (await _unitOfWork.CommitAsync())
             {

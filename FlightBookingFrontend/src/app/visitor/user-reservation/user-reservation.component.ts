@@ -37,5 +37,9 @@ export class UserReservationComponent implements OnInit, OnDestroy {
     if (this.reservationSub) {
       this.reservationSub.unsubscribe();
     }
+
+    if (this.userSub) {
+      this.userSub.unsubscribe();
+    }
   }
 }

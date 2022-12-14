@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using FlightBookingBackend.Data.DTOs;
 using FlightBookingBackend.Data.Interfaces;
+using FlightBookingBackend.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightBookingBackend.API.Controllers
@@ -19,6 +21,8 @@ namespace FlightBookingBackend.API.Controllers
         }
 
         // GET api/reservations
+        [HttpGet]
+        [Authorize(Roles = Roles.Agent)]
         public async Task<ActionResult<List<ReservationReadDto>>> GetReservations()
         {
             var reservations = await _reservationService.GetReservationsAsync();
@@ -31,6 +35,7 @@ namespace FlightBookingBackend.API.Controllers
 
         // POST api/reservations
         [HttpPost]
+        [Authorize(Roles = Roles.Visitor)]
         public async Task<ActionResult<ReservationReadDto>> AddReservation(
             ReservationCreateDto reservationCreateDto)
         {
@@ -43,10 +48,11 @@ namespace FlightBookingBackend.API.Controllers
 
         // PUT api/reservations/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateStatus(int id, NewStatusDto newStatusDto)
+        [Authorize(Roles = Roles.Agent)]
+        public async Task<ActionResult> UpdateStatus(int id, NewStatusDto newStatusDto, int flightId, int numberOfSeats)
         {
             var newStatus = await _reservationService
-                                        .ChangeReservationStatusAsync(id, newStatusDto.NewStatus);
+                        .ChangeReservationStatusAsync(id, newStatusDto.NewStatus, flightId, numberOfSeats);
                                         
             if (newStatus == null)
                 return BadRequest("Failed to change reservation status!");

@@ -58,6 +58,7 @@ namespace FlightBookingBackend.API.Controllers
 
         // GET api/account/users
         [HttpGet("users")]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<ActionResult<List<UserReadDto>>> GetAllUsersByAdmin()
         {
             var users = await _userService.GetAllUsersByAdminAsync();
@@ -69,6 +70,7 @@ namespace FlightBookingBackend.API.Controllers
 
         // GET api/account/users/{userId}/reservations
         [HttpGet("users/{userId}/reservations")]
+        [Authorize(Roles = Roles.Visitor)]
         public async Task<ActionResult<List<ReservationReadDto>>> GetReservationsByUser(int userId)
         {
             var reservations = await _reservationService.GetReservationsByUserAsync(userId);

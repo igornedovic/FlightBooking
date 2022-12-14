@@ -11,6 +11,6 @@ namespace FlightBookingBackend.Data.Interfaces
         public Task<List<ReservationReadDto>> GetReservationsAsync();
         public Task<List<ReservationReadDto>> GetReservationsByUserAsync(int userId);
         public Task<ReservationReadDto> AddReservationAsync(ReservationCreateDto reservationCreateDto);
-        public Task<string> ChangeReservationStatusAsync(int id, string newStatus);
+        public Task<string> ChangeReservationStatusAsync(int id, string newStatus, int flightId, int numberOfSeats);
     }
 }

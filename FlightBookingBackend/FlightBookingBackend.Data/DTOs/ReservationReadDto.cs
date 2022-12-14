@@ -26,6 +26,6 @@ namespace FlightBookingBackend.Data.DTOs
         public int NumberOfSeats { get; set; }
         [Required]
         public string Status { get; set; }
-
+        public int FlightId {get; set;}
     }
 }

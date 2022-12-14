@@ -23,6 +23,7 @@ export class Reservation {
         public date: Date,
         public flightStatus: FlightStatus,
         public numberOfSeats: number,
-        public status: ReservationStatus
+        public status: ReservationStatus,
+        public flightId?: number
       ) {}
 }

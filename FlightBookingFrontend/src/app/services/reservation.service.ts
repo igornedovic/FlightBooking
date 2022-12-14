@@ -86,7 +86,8 @@ export class ReservationService {
     //       response.date,
     //       response.flightStatus,
     //       response.numberOfSeats,
-    //       response.status
+    //       response.status,
+    //       response.flightId
     //     );
 
     //     return this.reservations;
@@ -118,7 +119,8 @@ export class ReservationService {
               r.date,
               r.flightStatus,
               r.numberOfSeats,
-              r.status
+              r.status,
+              r.flightId
             )
           );
         });
@@ -151,7 +153,8 @@ export class ReservationService {
                 r.date,
                 r.flightStatus,
                 r.numberOfSeats,
-                r.status
+                r.status,
+                r.flightId
               )
             );
           });
@@ -164,14 +167,16 @@ export class ReservationService {
       );
   }
 
-  changeReservationStatus(id: number, status: string, firstName: string, lastName: string) {
+  changeReservationStatus(id: number, status: string, firstName: string, lastName: string, flightId: number, numberOfSeats: number) {
     // const newStatusAsEnum = status as ReservationStatus;
     // let responseText: string;
 
     // return this.http
     //   .put(
     //     this.apiUrl + `reservations/${id}`,
-    //     { newStatus: status },
+    //     { newStatus: status,
+    //       flightId: flightId,
+    //       numberOfSeats: numberOfSeats },
     //     { responseType: 'text' }
     //   )
     //   .pipe(
@@ -190,7 +195,8 @@ export class ReservationService {
     //     })
     //   );
 
-    return this.signalRHubConnection?.invoke('UpdateReservationStatus', id, status, firstName, lastName)
-                  .catch(error => console.log(error));
+    return this.signalRHubConnection
+              ?.invoke('UpdateReservationStatus', id, status, firstName, lastName, flightId, numberOfSeats)
+              .catch(error => console.log(error));
   }
 }
