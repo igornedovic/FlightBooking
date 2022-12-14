@@ -23,6 +23,7 @@ namespace FlightBookingBackend.Services.Repositories
         {
             return _context.Flights.Include(f => f.FlyingFrom)
                                    .Include(f => f.FlyingTo)
+                                   .Where(f => f.NumberOfSeats > 0)
                                    .Search(queryParams.FlyingFrom, queryParams.FlyingTo)
                                    .Filter(queryParams.LayoverNumber);
         }

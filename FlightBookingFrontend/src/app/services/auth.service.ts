@@ -86,7 +86,7 @@ export class AuthService {
 
           this.storeAuthData(user);
 
-          this.reservationService.createHubConnection(user.role);
+          this.reservationService.createHubConnection(user.role, user.userId);
 
           this._user.next(user);
           return user;
@@ -139,7 +139,7 @@ export class AuthService {
       }),
       tap((user) => {
         if (user) {
-          this.reservationService.createHubConnection(user.role);
+          this.reservationService.createHubConnection(user.role, user.userId);
           
           this._user.next(user);
         }

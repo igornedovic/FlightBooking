@@ -14,5 +14,6 @@ namespace FlightBookingBackend.Data.DTOs
         public string LastName { get; set; }
         public string Role { get; set; }
         public string Token { get; set; }
+        public string HubConnectionId { get; set; }
     }
 }

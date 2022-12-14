@@ -11,6 +11,7 @@ using FlightBookingBackend.Data.DTOs;
 using FlightBookingBackend.Data.Interfaces;
 using FlightBookingBackend.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -110,6 +111,35 @@ namespace FlightBookingBackend.Services.Services
             if (users == null) return null;
 
             return _mapper.Map<List<UserReadDto>>(users);
+        }
+
+        public async Task<bool> AddHubConnectionId(int userId, string connectionId)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByIdAsync(userId);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.HubConnectionId = connectionId;
+
+            _unitOfWork.UserRepository.AddHubConnectionIdToUser(user);
+
+            if (await _unitOfWork.CommitAsync())
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<ConnectionIdDto> GetHubConnectionId(string firstName, string lastName)
+        {
+            var query = _unitOfWork.UserRepository.GetUserByFirstNameAndLastNameAsync(firstName, lastName); 
+            
+            return await query.Select(u => new ConnectionIdDto() {HubConnectionId = u.HubConnectionId})
+                              .FirstOrDefaultAsync();
         }
     }
 }

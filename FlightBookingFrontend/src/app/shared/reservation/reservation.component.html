@@ -60,12 +60,25 @@
                 {{ status }}
               </option>
             </select>
-            <input #changeStatusCheckbox type="checkbox" id="changeStatus" name="changeStatus" (change)="onChangeCheckbox(changeStatusCheckbox)" />
+            <input
+              #changeStatusCheckbox
+              type="checkbox"
+              id="changeStatus"
+              name="changeStatus"
+              (change)="onChangeCheckbox(changeStatusCheckbox)"
+            />
             <button
               #saveButton
               type="button"
               class="btn btn-secondary"
-              (click)="onChangeStatus(reservation.reservationId, selectedStatus)"
+              (click)="
+                onChangeStatus(
+                  reservation.reservationId,
+                  selectedStatus,
+                  reservation.firstName,
+                  reservation.lastName
+                )
+              "
             >
               Save
             </button>

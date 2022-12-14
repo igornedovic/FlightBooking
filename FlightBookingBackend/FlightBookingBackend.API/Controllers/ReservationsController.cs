@@ -23,7 +23,7 @@ namespace FlightBookingBackend.API.Controllers
         {
             var reservations = await _reservationService.GetReservationsAsync();
 
-            if (reservations == null || reservations.Count == 0) 
+            if (reservations == null || reservations.Count == 0)
                 return NotFound("No existing reservations found!");
 
             return Ok(reservations);
@@ -45,10 +45,13 @@ namespace FlightBookingBackend.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateStatus(int id, NewStatusDto newStatusDto)
         {
-            if (await _reservationService.ChangeReservationStatusAsync(id, newStatusDto.NewStatus))
-                return Ok("Successfully changed reservation status!");
+            var newStatus = await _reservationService
+                                        .ChangeReservationStatusAsync(id, newStatusDto.NewStatus);
+                                        
+            if (newStatus == null)
+                return BadRequest("Failed to change reservation status!");
             
-            return BadRequest("Failed to change reservation status!");
+            return Ok("Successfully changed reservation status!");
         }
     }
 }

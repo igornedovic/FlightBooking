@@ -41,13 +41,15 @@ export class ReservationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onChangeStatus(id: number, selectedStatus: HTMLInputElement) {
-    this.reservationService.changeReservationStatus(id, selectedStatus.value).subscribe(response => {
-      this.toastrService.success(response);
-    })
+  onChangeStatus(id: number, selectedStatus: HTMLInputElement, firstName: string, lastName: string) {
+    this.reservationService.changeReservationStatus(id, selectedStatus.value, firstName, lastName)
+                           .then(() => {
+                            this.toastrService.success("Successfully changed reservation status!");
+                           })
 
     this.selectedStatusRef.nativeElement.disabled = true;
     this.changeStatusCheckboxRef.nativeElement.checked = false;
     this.saveButton.nativeElement.disabled = true;
+
   }
 }

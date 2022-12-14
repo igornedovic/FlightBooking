@@ -15,5 +15,6 @@ namespace FlightBookingBackend.Data.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Role { get; set; }
+        public string HubConnectionId {get; set;}
     }
 }

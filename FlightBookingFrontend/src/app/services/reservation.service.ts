@@ -29,18 +29,18 @@ export class ReservationService {
     return this._reservations.asObservable();
   }
 
-  createHubConnection(userRole: string) {
-    // const userQueryParam = this.hubUrl + 'reservation?user=' + user;
-    // let userRoleQueryParam = ''
+  createHubConnection(userRole: string, userId: number = null) {
+    const userRoleQueryParam = this.hubUrl + 'reservation?userRole=' + userRole;
+    let userIdQueryParam = '';
 
-    // if (userRole) {
-    //   userRoleQueryParam = '&userRole=' + userRole;
-    // }
+    if (userId) {
+       userIdQueryParam = '&userId=' + userId;
+    }
 
-    // const hubUrlWithQueryParams = userQueryParam.concat(userRoleQueryParam);
+    const hubUrlWithQueryParams = userRoleQueryParam.concat(userIdQueryParam);
 
     this.signalRHubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(this.hubUrl + 'reservation?userRole=' + userRole)
+      .withUrl(hubUrlWithQueryParams)
       .withAutomaticReconnect()
       .build();
 
@@ -50,6 +50,17 @@ export class ReservationService {
       this.reservations.pipe(take(1)).subscribe(reservations => {
         const newReservations = reservations.concat(newReservation);
         this._reservations.next(newReservations);
+      })
+    })
+
+    this.signalRHubConnection.on('UpdatedReservationStatus', (id, newStatus) => {
+      this.reservations.pipe(take(1)).subscribe(reservations => {
+        const changedReservationIndex = reservations.findIndex(
+          (r) => r.reservationId == id
+        );
+        const newStatusAsEnum = newStatus as ReservationStatus;
+        reservations[changedReservationIndex].status = newStatusAsEnum;
+        this._reservations.next(reservations);
       })
     })
   }
@@ -153,30 +164,33 @@ export class ReservationService {
       );
   }
 
-  changeReservationStatus(id: number, status: string) {
-    const newStatusAsEnum = status as ReservationStatus;
-    let responseText: string;
+  changeReservationStatus(id: number, status: string, firstName: string, lastName: string) {
+    // const newStatusAsEnum = status as ReservationStatus;
+    // let responseText: string;
 
-    return this.http
-      .put(
-        this.apiUrl + `reservations/${id}`,
-        { newStatus: status },
-        { responseType: 'text' }
-      )
-      .pipe(
-        switchMap((response) => {
-          responseText = response;
-          return this.reservations;
-        }),
-        take(1),
-        map((reservations) => {
-          const changedReservationIndex = reservations.findIndex(
-            (r) => r.reservationId == id
-          );
-          reservations[changedReservationIndex].status = newStatusAsEnum;
-          this._reservations.next(reservations);
-          return responseText;
-        })
-      );
+    // return this.http
+    //   .put(
+    //     this.apiUrl + `reservations/${id}`,
+    //     { newStatus: status },
+    //     { responseType: 'text' }
+    //   )
+    //   .pipe(
+    //     switchMap((response) => {
+    //       responseText = response;
+    //       return this.reservations;
+    //     }),
+    //     take(1),
+    //     map((reservations) => {
+    //       const changedReservationIndex = reservations.findIndex(
+    //         (r) => r.reservationId == id
+    //       );
+    //       reservations[changedReservationIndex].status = newStatusAsEnum;
+    //       this._reservations.next(reservations);
+    //       return responseText;
+    //     })
+    //   );
+
+    return this.signalRHubConnection?.invoke('UpdateReservationStatus', id, status, firstName, lastName)
+                  .catch(error => console.log(error));
   }
 }

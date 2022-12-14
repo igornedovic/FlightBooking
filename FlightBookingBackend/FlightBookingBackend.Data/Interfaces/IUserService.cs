@@ -12,5 +12,7 @@ namespace FlightBookingBackend.Data.Interfaces
         public Task<bool> CheckUsernameAsync(string username);
         public Task<UserReadDto> LoginAsync(string username, string password);
         public Task<List<UserReadDto>> GetAllUsersByAdminAsync();
+        public Task<bool> AddHubConnectionId(int userId, string connectionId);
+        public Task<ConnectionIdDto> GetHubConnectionId(string firstName, string lastName);
     }
 }
