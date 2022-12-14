@@ -12,6 +12,7 @@ using FlightBookingBackend.Data.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FlightBookingBackend.API.SignalRHub;
 
 namespace FlightBookingBackend.API
 {
@@ -27,6 +28,14 @@ namespace FlightBookingBackend.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder => 
+                    builder.SetIsOriginAllowed(_ => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
 
             services.AddControllers();
 
@@ -61,7 +70,7 @@ namespace FlightBookingBackend.API
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddCors();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,12 +81,12 @@ namespace FlightBookingBackend.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseCors();
+            
             app.UseAuthentication();
 
             app.UseAuthorization();
@@ -85,6 +94,7 @@ namespace FlightBookingBackend.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ReservationHub>("hub/reservation");
             });
         }
     }

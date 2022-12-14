@@ -1,56 +1,94 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
+import * as signalR from '@microsoft/signalr';
 
 import { environment } from 'src/environments/environment';
-import { FlightStatus } from '../models/flight.model';
 import {
   Reservation,
   ReservationInterface,
   ReservationStatus,
 } from '../models/reservation.model';
-import { AuthService } from './auth.service';
+import { User } from '../models/user.model';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReservationService {
   apiUrl = environment.apiUrl;
+  hubUrl = environment.hubUrl;
+  private signalRHubConnection?: signalR.HubConnection;
   private _reservations = new BehaviorSubject<Reservation[]>([]);
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private toastrService: ToastrService) {}
 
   get reservations() {
     return this._reservations.asObservable();
   }
 
-  addNewReservation(reservationForm: ReservationInterface) {
-    let newReservation: Reservation;
+  createHubConnection(userRole: string) {
+    // const userQueryParam = this.hubUrl + 'reservation?user=' + user;
+    // let userRoleQueryParam = ''
 
-    return this.http.post(this.apiUrl + 'reservations', reservationForm).pipe(
-      take(1),
-      switchMap((response: Reservation) => {
-        newReservation = new Reservation(
-          response.reservationId,
-          response.firstName,
-          response.lastName,
-          response.flyingFromName,
-          response.flyingToName,
-          response.date,
-          response.flightStatus,
-          response.numberOfSeats,
-          response.status
-        );
+    // if (userRole) {
+    //   userRoleQueryParam = '&userRole=' + userRole;
+    // }
 
-        return this.reservations;
-      }),
-      take(1),
-      tap((reservations) => {
+    // const hubUrlWithQueryParams = userQueryParam.concat(userRoleQueryParam);
+
+    this.signalRHubConnection = new signalR.HubConnectionBuilder()
+      .withUrl(this.hubUrl + 'reservation?userRole=' + userRole)
+      .withAutomaticReconnect()
+      .build();
+
+    this.signalRHubConnection.start().catch((error) => console.log(error));
+
+    this.signalRHubConnection.on('NewReservation', newReservation => {
+      this.reservations.pipe(take(1)).subscribe(reservations => {
         const newReservations = reservations.concat(newReservation);
         this._reservations.next(newReservations);
       })
-    );
+    })
+  }
+
+  stopHubConnection() {
+    if (this.signalRHubConnection) {
+      this.signalRHubConnection.stop().catch((error) => console.log(error));
+    }
+  }
+
+  addNewReservation(reservationFormValue: ReservationInterface) {
+    // let newReservation: Reservation;
+
+    // return this.http.post(this.apiUrl + 'reservations', reservationFormValue).pipe(
+    //   take(1),
+    //   switchMap((response: Reservation) => {
+    //     newReservation = new Reservation(
+    //       response.reservationId,
+    //       response.firstName,
+    //       response.lastName,
+    //       response.flyingFromName,
+    //       response.flyingToName,
+    //       response.date,
+    //       response.flightStatus,
+    //       response.numberOfSeats,
+    //       response.status
+    //     );
+
+    //     return this.reservations;
+    //   }),
+    //   take(1),
+    //   tap((reservations) => {
+    //     const newReservations = reservations.concat(newReservation);
+    //     this._reservations.next(newReservations);
+    //   })
+    // );
+
+    return this.signalRHubConnection?.invoke('AddReservation', reservationFormValue)
+                  .catch(error => console.log(error));
   }
 
   getAllReservations() {
@@ -82,45 +120,37 @@ export class ReservationService {
     );
   }
 
-  getReservationsByUser() {
+  getReservationsByUser(userId: number) {
     this._reservations.next(null);
-    let fetchedUserId: number;
 
-    return this.authService.userId.pipe(
-      take(1),
-      tap((userId) => {
-        fetchedUserId = userId;
-      }),
-      switchMap(() => {
-        return this.http.get<Reservation[]>(
-          this.apiUrl + `account/users/${fetchedUserId}/reservations`
-        );
-      }),
-      map((response) => {
-        const reservations: Reservation[] = [];
+    return this.http
+      .get<Reservation[]>(this.apiUrl + `account/users/${userId}/reservations`)
+      .pipe(
+        map((response) => {
+          const reservations: Reservation[] = [];
 
-        response.forEach((r) => {
-          reservations.push(
-            new Reservation(
-              r.reservationId,
-              r.firstName,
-              r.lastName,
-              r.flyingFromName,
-              r.flyingToName,
-              r.date,
-              r.flightStatus,
-              r.numberOfSeats,
-              r.status
-            )
-          );
-        });
+          response.forEach((r) => {
+            reservations.push(
+              new Reservation(
+                r.reservationId,
+                r.firstName,
+                r.lastName,
+                r.flyingFromName,
+                r.flyingToName,
+                r.date,
+                r.flightStatus,
+                r.numberOfSeats,
+                r.status
+              )
+            );
+          });
 
-        return reservations;
-      }),
-      tap((reservations) => {
-        this._reservations.next(reservations);
-      })
-    );
+          return reservations;
+        }),
+        tap((reservations) => {
+          this._reservations.next(reservations);
+        })
+      );
   }
 
   changeReservationStatus(id: number, status: string) {
@@ -130,7 +160,7 @@ export class ReservationService {
     return this.http
       .put(
         this.apiUrl + `reservations/${id}`,
-        { newStatus: status},
+        { newStatus: status },
         { responseType: 'text' }
       )
       .pipe(

@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs';
 
 import { Flight } from 'src/app/models/flight.model';
 import { User } from 'src/app/models/user.model';
@@ -13,12 +12,11 @@ import { ReservationService } from 'src/app/services/reservation.service';
   templateUrl: './flight-booking-modal.component.html',
   styleUrls: ['./flight-booking-modal.component.css']
 })
-export class FlightBookingModalComponent implements OnInit, OnDestroy {
+export class FlightBookingModalComponent implements OnInit {
   title?: string;
   flight?: Flight;
   user?: User;
   newReservationForm: FormGroup;
-  private reservationSub: Subscription;
   
   constructor(public bsModalRef: BsModalRef, 
               private toastrService: ToastrService,
@@ -33,16 +31,10 @@ export class FlightBookingModalComponent implements OnInit, OnDestroy {
   }
 
   onBookFlight() {
-    this.reservationSub = this.reservationService.addNewReservation(this.newReservationForm.value)
-                                    .subscribe(success => {
+    this.reservationService.addNewReservation(this.newReservationForm.value)
+                                    .then(() => {
                                       this.toastrService.success('Successfully added new reservation!');
                                       this.bsModalRef.hide();
                                     })
-  }
-
-  ngOnDestroy() {
-    if (this.reservationSub) {
-      this.reservationSub.unsubscribe();
-    }
   }
 }

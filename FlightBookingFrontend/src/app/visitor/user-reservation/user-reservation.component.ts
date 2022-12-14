@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { Reservation } from 'src/app/models/reservation.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { ReservationService } from 'src/app/services/reservation.service';
 
 @Component({
@@ -11,12 +12,21 @@ import { ReservationService } from 'src/app/services/reservation.service';
 })
 export class UserReservationComponent implements OnInit, OnDestroy {
   userReservations: Reservation[];
+  private userId: number;
+  private userSub: Subscription;
   private reservationSub: Subscription;
 
-  constructor(private reservationService: ReservationService) { }
+  constructor(private authService: AuthService, private reservationService: ReservationService) { }
 
   ngOnInit() {
-    this.reservationService.getReservationsByUser().subscribe(() => {});
+    this.userSub = this.authService.user.subscribe(user => {
+      if (user)
+      {
+        this.userId = user.userId
+        this.reservationService.getReservationsByUser(this.userId).subscribe(() => {});
+      }
+    })
+
 
     this.reservationSub = this.reservationService.reservations.subscribe(reservations => {
       this.userReservations = reservations;

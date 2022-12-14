@@ -25,8 +25,10 @@ export class ReservationComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.selectedStatusRef.nativeElement.disabled = true;
-    this.saveButton.nativeElement.disabled = true;
+    if (this.authService.roleMatch(['Agent'])) {
+      this.selectedStatusRef.nativeElement.disabled = true;
+      this.saveButton.nativeElement.disabled = true;
+    }
   }
 
   onChangeCheckbox(changeStatusCheckbox: HTMLInputElement) {

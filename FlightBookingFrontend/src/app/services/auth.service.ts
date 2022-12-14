@@ -5,6 +5,7 @@ import { map, tap} from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { User } from '../models/user.model';
+import { ReservationService } from './reservation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   apiUrl = environment.apiUrl;
   private _user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private reservationService: ReservationService) { }
 
   get isUserAutheticated() {
     return this._user.asObservable().pipe(
@@ -85,6 +86,8 @@ export class AuthService {
 
           this.storeAuthData(user);
 
+          this.reservationService.createHubConnection(user.role);
+
           this._user.next(user);
           return user;
         })
@@ -136,6 +139,8 @@ export class AuthService {
       }),
       tap((user) => {
         if (user) {
+          this.reservationService.createHubConnection(user.role);
+          
           this._user.next(user);
         }
       }),
@@ -171,6 +176,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     this._user.next(null);
+    this.reservationService.stopHubConnection();
   }
 
 }
